@@ -4,7 +4,7 @@ function NavLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <NavBar />
-      <main className="px-8">{children}</main>
+      <main className="px-16">{children}</main>
     </>
   )
 }
