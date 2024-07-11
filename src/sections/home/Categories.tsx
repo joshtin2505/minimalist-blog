@@ -11,10 +11,10 @@ function Categories() {
         {categories.map((category) => {
           const { id, name } = category
           return (
-            <TabsContent value={id} key={id} className="pb-4 pt-2">
+            <TabsContent value={id} key={id} className="pb-4 pt-2 h-[94%]">
               {/* <h3 className="text-3xl">{name}</h3> */}
               <Image
-                className="w-full object-cover h-full aspect-[16/7] rounded"
+                className="w-full object-cover h-full aspect-auto rounded"
                 src={category.imageSrc}
                 alt={name}
                 width={2000}
