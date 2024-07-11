@@ -24,7 +24,7 @@ export default function RootLayout({
         <script src="/theme-script.js" async></script>
         <link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
       </head>
-      <body className={`${nunito.className} antialiased`}>
+      <body className={`${nunito.className} antialiased relative`}>
         <Providers>{children}</Providers>
       </body>
     </html>
