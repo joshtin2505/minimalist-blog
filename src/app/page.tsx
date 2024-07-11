@@ -1,4 +1,4 @@
-import Hero from "@/components/home/Hero"
+import Hero from "@/sections/home/Hero"
 import NavLayout from "@/components/layouts/NavLayout"
 
 export default function Home() {
