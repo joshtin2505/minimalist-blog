@@ -20,6 +20,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <script src="/theme-script.js" async></script>
+
         <link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
       </head>
       <body className={`${nunito.className} antialiased`}>{children}</body>
