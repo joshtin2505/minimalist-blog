@@ -20,7 +20,7 @@ function NavBar() {
               <Button variant="link">Blog</Button>
             </Link>
             <Link href="/categories">
-              <Button variant="link">Categorias</Button>
+              <Button variant="link">Categories</Button>
             </Link>
           </ul>
           <Link
