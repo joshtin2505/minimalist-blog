@@ -75,7 +75,7 @@
 }
 
 *::-webkit-scrollbar {
-  @apply bg-primary w-2 rounded-sm;
+  @apply bg-primary/40 w-2 rounded-sm;
 }
 
 *::-webkit-scrollbar-thumb {
