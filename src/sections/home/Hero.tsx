@@ -1,8 +1,9 @@
 import React from "react"
-import { Button } from "../ui/button"
-import { Input } from "../ui/input"
+import { Button } from "../../components/ui/button"
+import { Input } from "../../components/ui/input"
 import Image from "next/image"
 import { FaNewspaper, FaStar } from "react-icons/fa6"
+import Suscribe from "@/components/Suscribe"
 
 function Hero() {
   return (
@@ -16,14 +17,7 @@ function Hero() {
           Explore practical tips, tutorials, and the latest trends to hone your
           web development skills.
         </p>
-        <div className="flex w-full max-w-sm items-center space-x-2">
-          <Input
-            className="bg-primary-foreground"
-            type="email"
-            placeholder="Email"
-          />
-          <Button type="submit">Suscribe</Button>
-        </div>
+        <Suscribe />
         <footer className="flex items-center">
           <div className="flex text-primary/50 items-center font-light pr-[15px] border-r border-primary/50">
             <FaStar className="text-primary/70 mr-2" />
