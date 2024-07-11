@@ -34,7 +34,7 @@ function Hero() {
       </header>
       <figure className="col-start-8 col-end-12 md:grid hidden place-items-center h-full">
         <Image
-          className=" border border-primary rounded aspect-[3/2] w-[800px]  layerShadow"
+          className=" border border-primary rounded aspect-[3/2] w-[800px] grayscale layerShadow"
           src="/imgHero.jpg"
           alt="Hero Image"
           width={1000}
