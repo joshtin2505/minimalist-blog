@@ -8,10 +8,10 @@ function Header({ categories }: { categories: CategoriesType }) {
 
       <TabsList className="">
         {categories.map((category) => {
-          const { id, name } = category
+          const { value, name } = category
 
           return (
-            <TabsTrigger value={id} key={id}>
+            <TabsTrigger value={value} key={value}>
               {name}
             </TabsTrigger>
           )
