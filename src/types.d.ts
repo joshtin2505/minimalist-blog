@@ -1,7 +1,7 @@
 type ThemeType = "dark" | "light"
 interface CategoryType {
   name: string
-  id: string
+  value: string
   imageSrc: string
 }
 type CategoriesType = CategoryType[]
