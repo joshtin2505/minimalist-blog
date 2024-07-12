@@ -2,7 +2,17 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
+### Add .env Variables
+
+```env
+ADMIN_USERNAME=YOUR_USERNAME
+ADMIN_EMAIL=YOUR_MAIL
+ADMIN_PASSWORD=YOUR_PASSWORD
+POSTGRES_URL=YOUR_POSTGRES_URL
+```
+
 First, run the development server:
+
 
 ```bash
 npm run dev
