@@ -1,8 +1,8 @@
 [
-  { "name": "All", "id": "all", "imageSrc": "/img/categories/one.jpg" },
-  { "name": "Trends", "id": "trends", "imageSrc": "/img/categories/two.jpg"},
-  { "name": "Packages", "id": "packages", "imageSrc": "/img/categories/three.jpg"},
-  { "name": "Frondend", "id": "frontend", "imageSrc": "/img/categories/four.jpg"},
-  { "name": "Backend", "id": "backend", "imageSrc": "/img/categories/five.jpg"},
-  { "name": "Tutorials", "id": "tutorials", "imageSrc": "/img/categories/six.jpg"}
+  { "name": "All", "value": "all", "imageSrc": "/img/categories/one.jpg" },
+  { "name": "Trends", "value": "trends", "imageSrc": "/img/categories/two.jpg"},
+  { "name": "Packages", "value": "packages", "imageSrc": "/img/categories/three.jpg"},
+  { "name": "Frondend", "value": "frontend", "imageSrc": "/img/categories/four.jpg"},
+  { "name": "Backend", "value": "backend", "imageSrc": "/img/categories/five.jpg"},
+  { "name": "Tutorials", "value": "tutorials", "imageSrc": "/img/categories/six.jpg"}
 ]
