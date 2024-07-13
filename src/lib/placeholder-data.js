@@ -1,17 +1,17 @@
 const categories = [
-  { name: "All", value: "all", imageSrc: "/img/categories/one.jpg" },
-  { name: "Trends", value: "trends", imageSrc: "/img/categories/two.jpg" },
+  { name: "All", value: "all", imagesrc: "/img/categories/one.jpg" },
+  { name: "Trends", value: "trends", imagesrc: "/img/categories/two.jpg" },
   {
     name: "Packages",
     value: "packages",
-    imageSrc: "/img/categories/three.jpg",
+    imagesrc: "/img/categories/three.jpg",
   },
-  { name: "Frondend", value: "frontend", imageSrc: "/img/categories/four.jpg" },
-  { name: "Backend", value: "backend", imageSrc: "/img/categories/five.jpg" },
+  { name: "Frondend", value: "frontend", imagesrc: "/img/categories/four.jpg" },
+  { name: "Backend", value: "backend", imagesrc: "/img/categories/five.jpg" },
   {
     name: "Tutorials",
     value: "tutorials",
-    imageSrc: "/img/categories/six.jpg",
+    imagesrc: "/img/categories/six.jpg",
   },
 ]
 
