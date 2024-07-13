@@ -7,7 +7,7 @@ function Content({ categories = [] }: { categories: CategoriesType }) {
     <>
       {categories.length > 0 &&
         categories.map((category) => {
-          const { value, name } = category
+          const { value, name, imagesrc } = category
           return (
             <TabsContent
               value={value}
@@ -17,7 +17,7 @@ function Content({ categories = [] }: { categories: CategoriesType }) {
               {/* <h3 className="text-3xl">{name}</h3> */}
               <Image
                 className="w-full object-cover h-full aspect-auto rounded grayscale"
-                src={category.imageSrc}
+                src={imagesrc}
                 alt={name}
                 width={2000}
                 height={2000}
