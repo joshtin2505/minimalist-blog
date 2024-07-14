@@ -23,6 +23,8 @@ import {
 } from "../ui/form"
 import { loginUser } from "@/lib/actions"
 import { USER_STATUS } from "@/types.d"
+import useStore from "@/store/useStore"
+import { useRouter } from "next/navigation"
 
 export function LoginForm() {
   const form = useForm<LoginSchema>({
@@ -32,14 +34,18 @@ export function LoginForm() {
     },
     resolver: zodResolver(loginSchema),
   })
+  const { login } = useStore()
+  const { push } = useRouter()
   const { handleSubmit, control } = form
   async function onSubmit(values: LoginSchema) {
-    const status = await loginUser(values)
-    if (status === USER_STATUS.LOGGED) {
+    const loginRes = await loginUser(values)
+    if (loginRes.status === USER_STATUS.LOGGED) {
+      login(loginRes.user)
+      push("/dashboard")
       console.log("User logged in")
-    } else if (status === USER_STATUS.PASSWORD_NOT_MATCH) {
+    } else if (loginRes.status === USER_STATUS.PASSWORD_NOT_MATCH) {
       console.log("Password does not match")
-    } else if (status === USER_STATUS.MAIL_NOT_FOUND) {
+    } else if (loginRes.status === USER_STATUS.MAIL_NOT_FOUND) {
       console.log("Email not found")
     }
   }
