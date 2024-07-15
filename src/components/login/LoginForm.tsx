@@ -21,10 +21,9 @@ import {
   FormItem,
   FormLabel,
 } from "../ui/form"
-import { loginUser } from "@/lib/actions"
-import { USER_STATUS } from "@/types.d"
-import useStore from "@/store/useStore"
-import { useRouter } from "next/navigation"
+import { useFormState, useFormStatus } from "react-dom"
+import { authenticate } from "@/lib/actions"
+import { Loader2 } from "lucide-react"
 
 export function LoginForm() {
   const form = useForm<LoginSchema>({
@@ -34,21 +33,11 @@ export function LoginForm() {
     },
     resolver: zodResolver(loginSchema),
   })
-  const { login } = useStore()
-  const { push } = useRouter()
-  const { handleSubmit, control } = form
-  async function onSubmit(values: LoginSchema) {
-    const loginRes = await loginUser(values)
-    if (loginRes.status === USER_STATUS.LOGGED) {
-      login(loginRes.user)
-      push("/dashboard")
-      console.log("User logged in")
-    } else if (loginRes.status === USER_STATUS.PASSWORD_NOT_MATCH) {
-      console.log("Password does not match")
-    } else if (loginRes.status === USER_STATUS.MAIL_NOT_FOUND) {
-      console.log("Email not found")
-    }
-  }
+  const { control } = form
+
+  const { pending } = useFormStatus()
+  const [errorMessage, formAction] = useFormState(authenticate, undefined)
+  console.log(pending)
   return (
     <Card className="mx-auto max-w-sm">
       <CardHeader>
@@ -59,7 +48,7 @@ export function LoginForm() {
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4">
+          <form action={formAction} className="grid gap-4">
             <div className="grid gap-2">
               <FormField
                 control={control}
@@ -107,7 +96,10 @@ export function LoginForm() {
                 )}
               />
             </div>
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full" disabled={pending}>
+              <span className={`" ${pending ? "" : "hidden "}"`}>
+                <Loader2 className="mr-3 h-4 w-4 animate-spin" />
+              </span>
               Login
             </Button>
           </form>
