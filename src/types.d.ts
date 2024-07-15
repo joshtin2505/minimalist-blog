@@ -15,6 +15,14 @@ type LoggedUserType = {
   email: string
   username: string
 }
+type UserType = {
+  id: IdType
+  name: string
+  lastname: string
+  email: string
+  username: string
+  password: string
+}
 
 type ReturnLoginType =
   | {
@@ -43,4 +51,5 @@ export type {
   CategoryType,
   LoggedUserType,
   ReturnLoginType,
+  UserType,
 }
