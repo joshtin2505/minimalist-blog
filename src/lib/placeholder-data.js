@@ -1,16 +1,14 @@
 const categories = [
-  { name: "All", value: "all", imagesrc: "/img/categories/one.jpg" },
-  { name: "Trends", value: "trends", imagesrc: "/img/categories/two.jpg" },
+  { name: "All", imagesrc: "/img/categories/one.jpg" },
+  { name: "Trends", imagesrc: "/img/categories/two.jpg" },
   {
     name: "Packages",
-    value: "packages",
     imagesrc: "/img/categories/three.jpg",
   },
-  { name: "Frondend", value: "frontend", imagesrc: "/img/categories/four.jpg" },
-  { name: "Backend", value: "backend", imagesrc: "/img/categories/five.jpg" },
+  { name: "Frondend", imagesrc: "/img/categories/four.jpg" },
+  { name: "Backend", imagesrc: "/img/categories/five.jpg" },
   {
     name: "Tutorials",
-    value: "tutorials",
     imagesrc: "/img/categories/six.jpg",
   },
 ]
