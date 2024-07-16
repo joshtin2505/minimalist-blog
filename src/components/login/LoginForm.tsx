@@ -23,8 +23,13 @@ import {
 } from "../ui/form"
 import { Loader2 } from "lucide-react"
 import { loginActions } from "@/actions/auth"
+import { useState, useTransition } from "react"
+import { useRouter } from "next/navigation"
+import { toast } from "sonner"
 
 export function LoginForm() {
+  const [isPending, startTransition] = useTransition()
+
   const form = useForm<LoginSchema>({
     defaultValues: {
       email: "",
@@ -33,9 +38,18 @@ export function LoginForm() {
     resolver: zodResolver(loginSchema),
   })
   const { control, handleSubmit } = form
+  const { push } = useRouter()
   const onSubmit = async (data: LoginSchema) => {
-    const response = await loginActions(data)
+    startTransition(async () => {
+      const response = await loginActions(data)
+      if (response.error) {
+        toast.error(response.error)
+      } else {
+        push("/dashboard")
+      }
+    })
   }
+
   return (
     <Card className="mx-auto max-w-sm">
       <CardHeader>
@@ -94,10 +108,10 @@ export function LoginForm() {
                 )}
               />
             </div>
-            <Button type="submit" className="w-full">
-              {/* <span className={`" ${pending ? "" : "hidden "}"`}>
-                <Loader2 className="mr-3 h-4 w-4 animate-spin" />
-              </span> */}
+            <Button type="submit" className="w-full" disabled={isPending}>
+              <span className={`" ${isPending ? "" : "hidden "}"`}>
+                <Loader2 className="mr-1 h-4 w-4 animate-spin" />
+              </span>
               Login
             </Button>
           </form>
