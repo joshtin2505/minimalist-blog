@@ -1,13 +1,12 @@
 type ThemeType = "dark" | "light"
+type IdType = `${string}-${string}-${string}-${string}-${string}`
+type EmailType = `${string}@${string}.${string}`
 interface CategoryType {
   name: string
-  value: string
   imagesrc: string
 }
 type CategoriesType = CategoryType[]
 
-type IdType = `${string}-${string}-${string}-${string}-${string}`
-type EmailType = `${string}@${string}.${string}`
 type LoggedUserType = {
   id: IdType
   name: string
