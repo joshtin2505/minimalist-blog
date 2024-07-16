@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { Nunito } from "next/font/google"
 import "./globals.css"
 import Providers from "./Providers"
+import { Toaster } from "@/components/ui/sonner"
 
 const nunito = Nunito({
   subsets: ["latin"],
@@ -26,6 +27,7 @@ export default function RootLayout({
       </head>
       <body className={`${nunito.className} antialiased relative`}>
         <Providers>{children}</Providers>
+        <Toaster richColors />
       </body>
     </html>
   )
