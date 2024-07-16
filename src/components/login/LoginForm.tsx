@@ -21,9 +21,8 @@ import {
   FormItem,
   FormLabel,
 } from "../ui/form"
-import { useFormState, useFormStatus } from "react-dom"
-import { authenticate } from "@/lib/actions"
 import { Loader2 } from "lucide-react"
+import { loginActions } from "@/actions/auth"
 
 export function LoginForm() {
   const form = useForm<LoginSchema>({
@@ -33,11 +32,10 @@ export function LoginForm() {
     },
     resolver: zodResolver(loginSchema),
   })
-  const { control } = form
-
-  const { pending } = useFormStatus()
-  const [errorMessage, formAction] = useFormState(authenticate, undefined)
-  console.log(pending)
+  const { control, handleSubmit } = form
+  const onSubmit = async (data: LoginSchema) => {
+    const response = await loginActions(data)
+  }
   return (
     <Card className="mx-auto max-w-sm">
       <CardHeader>
@@ -48,7 +46,7 @@ export function LoginForm() {
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form action={formAction} className="grid gap-4">
+          <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4">
             <div className="grid gap-2">
               <FormField
                 control={control}
@@ -96,10 +94,10 @@ export function LoginForm() {
                 )}
               />
             </div>
-            <Button type="submit" className="w-full" disabled={pending}>
-              <span className={`" ${pending ? "" : "hidden "}"`}>
+            <Button type="submit" className="w-full">
+              {/* <span className={`" ${pending ? "" : "hidden "}"`}>
                 <Loader2 className="mr-3 h-4 w-4 animate-spin" />
-              </span>
+              </span> */}
               Login
             </Button>
           </form>
