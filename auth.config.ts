@@ -7,8 +7,6 @@ import bcrypt from "bcryptjs"
 export default {
   providers: [
     Credentials({
-      // You can specify which fields should be submitted, by adding keys to the `credentials` object.
-      // e.g. domain, username, password, 2FA token, etc.
       authorize: async (credentials) => {
         const { data, success } = loginSchema.safeParse(credentials)
 
