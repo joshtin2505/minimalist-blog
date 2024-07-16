@@ -15,7 +15,7 @@ function Categories() {
   }, [])
   if (categories.length === 0) return null
   return (
-    <Tabs defaultValue={categories[0].value}>
+    <Tabs defaultValue={categories[0].name}>
       <section className="h-dvh pt-10">
         <Header categories={categories} />
         <Content categories={categories} />
