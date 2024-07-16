@@ -1,8 +1,13 @@
 "use server"
-import { CategoryType } from "@/types.d"
-import { sql } from "@vercel/postgres"
+import { db } from "./db"
 
 export async function fetchCategories() {
-  const { rows } = await sql<CategoryType>`SELECT name, value, image_src AS imagesrc FROM categories`
-  return rows
+  try {
+    const rows = await db.categories.findMany()
+    console.log(rows)
+    return rows
+  } catch (error) {
+    console.error(error)
+    return []
+  }
 }
