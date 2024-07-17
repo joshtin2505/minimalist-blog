@@ -22,3 +22,7 @@ export default middleware((req) => {
 
   return NextResponse.next()
 })
+
+export const config = {
+  matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
+}
