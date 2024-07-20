@@ -1,4 +1,3 @@
-import React from "react"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -28,7 +27,7 @@ function AutoBreadCrumbList({ uri }: { uri: string }) {
           const isLastIndex = index + 1 === array.length
           if (isLastIndex) {
             return (
-              <BreadcrumbItem key={index}>
+              <BreadcrumbItem key={part.href}>
                 <BreadcrumbPage className="capitalize text-lg">
                   {part.name}
                 </BreadcrumbPage>
@@ -37,7 +36,7 @@ function AutoBreadCrumbList({ uri }: { uri: string }) {
           }
           return (
             <>
-              <BreadcrumbItem key={index}>
+              <BreadcrumbItem key={part.href}>
                 <BreadcrumbLink asChild>
                   <Link href={part.href} className="capitalize text-lg">
                     {part.name}
