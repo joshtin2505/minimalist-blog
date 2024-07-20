@@ -1,4 +1,4 @@
-import NavLayout from "@/components/layouts/NavLayout"
+import NavLayout from "@/layouts/NavLayout"
 import React from "react"
 
 function NotFound() {
