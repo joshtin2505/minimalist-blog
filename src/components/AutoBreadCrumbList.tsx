@@ -20,7 +20,6 @@ function AutoBreadCrumbList({ uri }: { uri: string }) {
         href: hrefCrecent,
       }
     })
-  console.log(uriParts)
   return (
     <Breadcrumb className="hidden md:flex">
       <BreadcrumbList>
