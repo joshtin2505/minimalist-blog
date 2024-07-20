@@ -14,10 +14,12 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
+import { signOut } from "next-auth/react"
 
 function HeaderDashboard() {
   const pathname = usePathname()
+  const { push } = useRouter()
 
   return (
     <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
@@ -39,7 +41,7 @@ function HeaderDashboard() {
             className="overflow-hidden rounded-full"
           >
             <Image
-              src="/placeholder-user.jpg"
+              src="/placeholder-user.jpeg"
               width={36}
               height={36}
               alt="Avatar"
@@ -50,10 +52,22 @@ function HeaderDashboard() {
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Settings</DropdownMenuItem>
-          <DropdownMenuItem>Support</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => push("/dashboard/settings")}>
+            Settings
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => push("/dashboard/support")}>
+            Support
+          </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Logout</DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={async () =>
+              await signOut({
+                callbackUrl: "/login",
+              })
+            }
+          >
+            Logout
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </header>
