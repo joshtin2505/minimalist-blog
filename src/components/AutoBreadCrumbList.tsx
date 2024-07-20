@@ -9,7 +9,7 @@ import {
 import Link from "next/link"
 
 function AutoBreadCrumbList({ uri }: { uri: string }) {
-  let hrefCrecent: string
+  let hrefCrecent = ""
   const uriParts = uri
     .split("/")
     .filter(Boolean)
@@ -20,6 +20,7 @@ function AutoBreadCrumbList({ uri }: { uri: string }) {
         href: hrefCrecent,
       }
     })
+  console.log(uriParts)
   return (
     <Breadcrumb className="hidden md:flex">
       <BreadcrumbList>
