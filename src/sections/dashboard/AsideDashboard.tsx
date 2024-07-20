@@ -15,7 +15,13 @@ import {
 import Link, { LinkProps } from "next/link"
 import { usePathname } from "next/navigation"
 import path from "path"
-import { AnchorHTMLAttributes, ReactNode, useEffect, useState } from "react"
+import {
+  AnchorHTMLAttributes,
+  forwardRef,
+  ReactNode,
+  useEffect,
+  useState,
+} from "react"
 
 function Aside() {
   const pathname = usePathname()
@@ -103,11 +109,15 @@ interface DashboardButtonLinkProps
   defaultStyles: string
   children: ReactNode
 }
-const DashboardButtonLink = (linkProps: DashboardButtonLinkProps) => {
+const DashboardButtonLink = forwardRef<
+  HTMLAnchorElement,
+  DashboardButtonLinkProps
+>((linkProps, ref) => {
   const { currentPathStyles, children, defaultStyles, ...rest } = linkProps
   const inCurrentPath = usePathname() === rest.href
   return (
     <Link
+      ref={ref}
       href={rest.href ?? ""}
       {...rest}
       className={`${inCurrentPath ? currentPathStyles : defaultStyles} `}
@@ -115,6 +125,6 @@ const DashboardButtonLink = (linkProps: DashboardButtonLinkProps) => {
       {children}
     </Link>
   )
-}
+})
 
 export default Aside
