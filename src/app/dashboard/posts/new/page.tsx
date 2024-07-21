@@ -1,12 +1,7 @@
 "use client"
-import { JSONContent } from "novel"
-import { useState } from "react"
+import TailwindAdvancedEditor from "@/components/text-editor/advanced-editor"
 function New() {
-  return (
-    <div>
-      <h1>Create New Post</h1>
-    </div>
-  )
+  return <TailwindAdvancedEditor />
 }
 
 export default New
