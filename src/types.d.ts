@@ -1,3 +1,5 @@
+import { $Enums } from "@prisma/client"
+
 type ThemeType = "dark" | "light"
 type IdType = `${string}-${string}-${string}-${string}-${string}`
 type EmailType = `${string}@${string}.${string}`
@@ -44,6 +46,29 @@ export enum USER_STATUS {
   INTERNAL_ERROR = "INTERNAL_ERROR",
 }
 
+export enum PostStatus {
+  DRAFT,
+  PUBLISHED,
+  ARCHIVED,
+  DELETED,
+  PROGRAMMED,
+}
+
+interface PostType {
+  id?: string
+  title: string
+  content: string
+  html: string
+  markdown: string
+  createdAt?: Date
+  updatedAt?: Date
+  publishedAt?: Date
+  readingTimeMinutes?: number
+  status: $Enums.PostStatus
+  authorId: IdType
+  categoryId: string
+  tags?: string[] | []
+}
 export type {
   ThemeType,
   CategoriesType,
@@ -51,4 +76,5 @@ export type {
   LoggedUserType,
   ReturnLoginType,
   UserType,
+  PostType,
 }
