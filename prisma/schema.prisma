@@ -25,6 +25,7 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   categories Categories[]
+  posts Posts[]
 }
 
 model Categories {
@@ -35,6 +36,7 @@ model Categories {
   updatedAt DateTime @updatedAt
   createdBy User @relation(fields: [createdById], references: [id])
   createdById String
+  posts Posts[]
 }
 
 
@@ -44,4 +46,32 @@ model VerificationToken {
   expires    DateTime
  
   @@id([identifier, token])
+}
+
+model Posts {
+  id                 String       @id @default(cuid())
+  title              String
+  content            String
+  html               String    @db.Text
+  markdown           String    @db.Text
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  publishedAt        DateTime?
+  readingTimeMinutes Int
+  status              PostStatus
+  author             User      @relation(fields: [authorId], references: [id])
+  authorId           String
+  category           Categories @relation(fields: [categoryId], references: [id])
+  categoryId         String
+  tags               String[]
+
+  @@map("posts")
+}
+
+enum PostStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+  DELETED
+  PROGRAMMED
 }
