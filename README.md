@@ -5,12 +5,47 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 ### Add .env Variables
 
 ```env
-ADMIN_USERNAME=YOUR_USERNAME
-ADMIN_EMAIL=YOUR_MAIL
-ADMIN_PASSWORD=YOUR_PASSWORD
-POSTGRES_URL=YOUR_POSTGRES_URL
-```
+ADMIN_NAME=
+ADMIN_LASTNAME=
+ADMIN_USERNAME=
+ADMIN_EMAIL=
+ADMIN_PASSWORD=
+```env
 
+POSTGRES_PRISMA_URL=
+```
+```env
+AUTH_SECRET=
+```
+---
+ This file will be committed to version control, so make sure not to have any
+ secrets in it. If you are cloning this repo, create a copy of this file named
+ ".env" and populate it with your secrets.
+
+Get your OpenAI API key here: https://platform.openai.com/account/api-keys
+```env
+OPENAI_API_KEY=
+```
+---
+OPTIONAL: OpenAI Base URL (default to https://api.openai.com/v1)
+```env
+# OPENAI_BASE_URL=
+```
+---
+OPTIONAL: Vercel Blob (for uploading images)
+Get your Vercel Blob credentials here: https://vercel.com/docs/storage/vercel-blob/quickstart#quickstart
+```env
+BLOB_READ_WRITE_TOKEN=
+```
+---
+OPTIONAL: Vercel KV (for ratelimiting)
+Get your Vercel KV credentials here: https://vercel.com/docs/storage/vercel-kv/quickstart#quickstart
+
+```env
+KV_REST_API_URL=
+KV_REST_API_TOKEN=
+```
+---
 First, run the development server:
 
 
