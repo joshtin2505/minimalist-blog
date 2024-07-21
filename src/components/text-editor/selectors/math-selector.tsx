@@ -15,14 +15,14 @@ export const MathSelector = () => {
       className="rounded-none w-12"
       onClick={(evt) => {
         if (editor.isActive("math")) {
-          editor.chain().focus()?.unsetLatex().run()
+          // editor.chain().focus()?.unsetLatex().run()
         } else {
           const { from, to } = editor.state.selection
           const latex = editor.state.doc.textBetween(from, to)
 
           if (!latex) return
 
-          editor.chain().focus()?.setLatex({ latex }).run()
+          // editor.chain().focus()?.setLatex({ latex }).run()
         }
       }}
     >
