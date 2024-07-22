@@ -5,9 +5,9 @@ import React, { useEffect, useState } from "react"
 // import categories from "@/mocks/section.json"
 import Content from "@/components/categories/Content"
 import { fetchCategories } from "@/lib/data"
-import { CategoriesType } from "@/types"
+import { CategoryPureType } from "@/types"
 function Categories() {
-  const [categories, setCategories] = useState<CategoriesType>([])
+  const [categories, setCategories] = useState<CategoryPureType[]>([])
   useEffect(() => {
     ;(async () => {
       setCategories(await fetchCategories())
