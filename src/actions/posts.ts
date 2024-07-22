@@ -1,8 +1,8 @@
 "use server"
 import { db } from "@/lib/db"
-import { PostType } from "@/types"
+import { IdType, PostToDBType } from "@/types"
 
-export async function createPost(post: PostType) {
+export async function createPost(post: PostToDBType) {
   try {
     const response = await db.posts.create({
       data: {
@@ -18,7 +18,7 @@ export async function createPost(post: PostType) {
   }
 }
 
-export async function updatePost(post: PostType) {
+export async function updatePost(post: PostToDBType) {
   const { id, ...rest } = post
   try {
     const response = await db.posts.update({
@@ -65,6 +65,105 @@ export async function getPost(postId: string) {
   try {
     const response = await db.posts.findUnique({
       where: { id: postId },
+      include: {
+        category: true,
+        author: true,
+      },
+    })
+    return response
+  } catch (error) {
+    console.log(error)
+    throw new Error(String(error))
+  }
+}
+
+export async function getPosts() {
+  try {
+    const response = await db.posts.findMany({
+      include: {
+        category: true,
+        author: true,
+      },
+    })
+    return response
+  } catch (error) {
+    console.log(error)
+    throw new Error(String(error))
+  }
+}
+
+export async function getDrafts() {
+  try {
+    const response = await db.posts.findMany({
+      where: { status: "DRAFT" },
+      include: {
+        category: true,
+        author: true,
+      },
+    })
+    return response
+  } catch (error) {
+    console.log(error)
+    throw new Error(String(error))
+  }
+}
+
+export async function getPublishedPosts() {
+  try {
+    const response = await db.posts.findMany({
+      where: { status: "PUBLISHED" },
+      include: {
+        category: true,
+        author: true,
+      },
+    })
+    return response
+  } catch (error) {
+    console.log(error)
+    throw new Error(String(error))
+  }
+}
+
+export async function getArchivedPosts() {
+  try {
+    const response = await db.posts.findMany({
+      where: { status: "ARCHIVED" },
+      include: {
+        category: true,
+        author: true,
+      },
+    })
+    return response
+  } catch (error) {
+    console.log(error)
+    throw new Error(String(error))
+  }
+}
+
+export async function getDeletedPosts() {
+  try {
+    const response = await db.posts.findMany({
+      where: { status: "DELETED" },
+      include: {
+        category: true,
+        author: true,
+      },
+    })
+    return response
+  } catch (error) {
+    console.log(error)
+    throw new Error(String(error))
+  }
+}
+
+export async function getProgrammedPosts() {
+  try {
+    const response = await db.posts.findMany({
+      where: { status: "PROGRAMMED" },
+      include: {
+        category: true,
+        author: true,
+      },
     })
     return response
   } catch (error) {
