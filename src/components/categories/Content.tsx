@@ -1,8 +1,8 @@
-import { CategoriesType } from "@/types"
+import { CategoryPureType } from "@/types"
 import { TabsContent } from "../ui/tabs"
 import Image from "next/image"
 
-function Content({ categories = [] }: { categories: CategoriesType }) {
+function Content({ categories = [] }: { categories: CategoryPureType[] }) {
   return (
     <>
       {categories.length > 0 &&
