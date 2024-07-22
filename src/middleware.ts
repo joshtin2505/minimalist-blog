@@ -4,22 +4,29 @@ import { NextResponse } from "next/server"
 
 const { auth: middleware } = NextAuth(authConfig)
 
-const publicRoutes = [
-  "/",
-  "/login",
-  "/register",
-  "/forgot-password",
-  "/verify-email",
-]
-
+const publicRoutes = ["/", "/forgot-password", "/verify-email"]
+const authRoutes = ["/login", "/register"]
+const apiAuthPrefix = "/api/auth"
 export default middleware((req) => {
   const { nextUrl, auth } = req
   const isLoggedIn = !!auth?.user
 
-  if (!isLoggedIn && !publicRoutes.includes(nextUrl.pathname)) {
-    return NextResponse.redirect(new URL("/login", nextUrl))
+  // Permitir todas las rutas de API de autenticación
+  if (nextUrl.pathname.startsWith(apiAuthPrefix)) {
+    return NextResponse.next()
   }
 
+  if (isLoggedIn && authRoutes.includes(nextUrl.pathname)) {
+    return NextResponse.redirect(new URL("/dashboard", nextUrl))
+  }
+
+  if (
+    !isLoggedIn &&
+    !authRoutes.includes(nextUrl.pathname) &&
+    !publicRoutes.includes(nextUrl.pathname)
+  ) {
+    return NextResponse.redirect(new URL("/login", nextUrl))
+  }
   return NextResponse.next()
 })
 
