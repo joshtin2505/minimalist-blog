@@ -1,7 +1,7 @@
-import { CategoriesType } from "@/types"
+import { CategoryPureType } from "@/types"
 import { TabsList, TabsTrigger } from "../ui/tabs"
 
-function Header({ categories = [] }: { categories: CategoriesType }) {
+function Header({ categories = [] }: { categories: CategoryPureType[] }) {
   if (categories.length === 0) return null
   return (
     <header className="flex w-full justify-between ">
