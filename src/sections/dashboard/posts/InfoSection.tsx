@@ -15,7 +15,7 @@ function InfoSection() {
         description="Manage your blog posts and view their performance."
         footerChildren={
           <Button onClick={() => push("/dashboard/posts/new")}>
-            Create New Order
+            Create New Post
           </Button>
         }
       />
