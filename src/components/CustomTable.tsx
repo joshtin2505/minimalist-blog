@@ -12,7 +12,7 @@ function CustomTable({
   theads,
   rows,
 }: {
-  theads: string[]
+  theads: (React.JSX.Element | string)[]
   rows: (React.JSX.Element | string)[][]
 }) {
   return (
