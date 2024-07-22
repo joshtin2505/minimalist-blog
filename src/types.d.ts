@@ -90,7 +90,7 @@ interface PostResType extends PostPureType {
 interface PostToDBType extends PostPureType {
   authorId: string
   categoryId: string
-  publishedAt: Date | null
+  publishedAt?: Date | null
 }
 
 export type {
