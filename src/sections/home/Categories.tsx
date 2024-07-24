@@ -4,13 +4,20 @@ import { Tabs } from "@/components/ui/tabs"
 import React, { useEffect, useState } from "react"
 // import categories from "@/mocks/section.json"
 import Content from "@/components/categories/Content"
-import { fetchCategories } from "@/lib/data"
 import { CategoryPureType } from "@/types"
+import { getCategories } from "@/actions/categories"
+import { set } from "zod"
+import { toast } from "sonner"
 function Categories() {
   const [categories, setCategories] = useState<CategoryPureType[]>([])
   useEffect(() => {
     ;(async () => {
-      setCategories(await fetchCategories())
+      await getCategories()
+        .then((res) => setCategories(res))
+        .catch((error) => {
+          toast.error(error)
+          setCategories([])
+        })
     })()
   }, [])
   if (categories.length === 0) return null
