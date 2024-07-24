@@ -30,6 +30,19 @@ import hljs from "highlight.js"
 import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
 import { createPost, getPost, updatePost } from "@/actions/posts"
+import { Input } from "../ui/input"
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select"
+import { getCategories } from "@/actions/categories"
+import { toast } from "sonner"
+import { CategoryPureType } from "@/types"
 
 const extensions = [...defaultExtensions, slashCommand]
 
@@ -42,6 +55,8 @@ const TailwindAdvancedEditor = () => {
   const [openColor, setOpenColor] = useState(false)
   const [openLink, setOpenLink] = useState(false)
   const [openAI, setOpenAI] = useState(false)
+
+  const [categories, setCategories] = useState<CategoryPureType[]>([])
 
   //Apply Codeblock Highlighting on the HTML from editor.getHTML()
   const highlightCodeblocks = (content: string) => {
@@ -58,15 +73,6 @@ const TailwindAdvancedEditor = () => {
     async (editor: EditorInstance) => {
       const json = editor.getJSON()
       setCharsCount(editor.storage.characterCount.words())
-      // window.localStorage.setItem(
-      //   "html-content",
-      //   highlightCodeblocks(editor.getHTML()),
-      // )
-      // window.localStorage.setItem("novel-content", JSON.stringify(json))
-      // window.localStorage.setItem(
-      //   "markdown",
-      //   editor.storage.markdown.getMarkdown(),
-      // )
       const postId = window.localStorage.getItem("post-id")
       if (postId) {
         await getPost(postId).then((res) => {
@@ -109,8 +115,24 @@ const TailwindAdvancedEditor = () => {
         if (!res) return setInitialContent(defaultEditorContent)
         setInitialContent(JSON.parse(res.content))
       })
-    })()
 
+      await getCategories()
+        .then((res) => setCategories(res))
+        .catch((error) => {
+          toast.error(error)
+          console.log(error)
+          setCategories([])
+        })
+    })()
+    ;(async () => {
+      await getCategories()
+        .then((res) => setCategories(res))
+        .catch((error) => {
+          toast.error(error)
+          console.log(error)
+          setCategories([])
+        })
+    })()
     return () => {
       window.localStorage.removeItem("post-id")
     }
@@ -119,8 +141,8 @@ const TailwindAdvancedEditor = () => {
   if (!initialContent) return null
 
   return (
-    <div className="relative w-full ">
-      <div className="flex absolute right-0 px-6 top-5 z-10 mb-5 gap-2 w-full justify-between">
+    <div className="relative w-full flex flex-col gap-4 ">
+      <div className="flex px-6 pt-6 pb-2 z-10 gap-2 w-full justify-between">
         <Link
           href="/dashboard/posts"
           className="hover:bg-muted/70 transition-colors rounded-full w-6 h-6 flex items-center"
@@ -142,11 +164,47 @@ const TailwindAdvancedEditor = () => {
           </div>
         </div>
       </div>
+
+      <div className="px-6">
+        <div className="border-y border-muted py-3 flex gap-4">
+          <Input
+            type="text"
+            defaultValue="Post Title"
+            className="border-none"
+            placeholder="Title of the post..."
+          />
+          <Select>
+            {categories.length > 0 ? (
+              <>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Select a category" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Category</SelectLabel>
+                    {categories.map((category) => (
+                      <>
+                        <SelectItem key={category.id} value={category.id}>
+                          {category.name}
+                        </SelectItem>
+                      </>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </>
+            ) : (
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="No categories found" />
+              </SelectTrigger>
+            )}
+          </Select>
+        </div>
+      </div>
       <EditorRoot>
         <EditorContent
           initialContent={initialContent}
           extensions={extensions}
-          className="relative w-full border-muted bg-background min-h-dvh pt-20 px-6 sm:border sm:shadow-lg"
+          className="relative w-full border-none bg-background min-h-dvh px-6 sm:border sm:shadow-lg"
           editorProps={{
             handleDOMEvents: {
               keydown: (_view, event) => handleCommandNavigation(event),
