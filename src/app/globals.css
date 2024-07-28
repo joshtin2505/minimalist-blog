@@ -107,7 +107,58 @@ html .layerShadow {
   @apply min-h-dvh focus:outline-none p-5;
 
   &>h1 {
-    @apply text-4xl font-bold first:mb-4 first:border-b first:pb-2;
+    @apply scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl;
   }
 
+  &>h2 {
+    @apply scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0;
+  }
+
+  &>h3 {
+    @apply scroll-m-20 text-2xl font-semibold tracking-tight;
+  }
+
+  &>h4 {
+    @apply scroll-m-20 text-xl font-semibold tracking-tight;
+  }
+
+  &>h5 {
+    @apply text-xl font-medium text-muted-foreground;
+  }
+
+  &>h6 {
+    @apply text-lg font-semibold;
+  }
+
+  &>p {
+    @apply leading-7;
+  }
+
+  /* Code and preformatted text styles */
+  &code {
+    background-color: var(--purple-light);
+    border-radius: 0.4rem;
+    color: var(--black);
+    font-size: 0.85rem;
+    padding: 0.25em 0.3em;
+  }
+
+}
+
+/* Color swatches */
+.tiptap .color {
+  white-space: nowrap;
+
+  &::before {
+    background-color: var(--color);
+    border: 1px solid rgba(128, 128, 128, 0.3);
+    border-radius: 2px;
+    content: " ";
+    display: inline-block;
+    height: 1em;
+    margin-bottom: 0.15em;
+    margin-right: 0.1em;
+    vertical-align: middle;
+    width: 1em;
+  }
 }
