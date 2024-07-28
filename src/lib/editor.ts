@@ -38,6 +38,8 @@ import TextStyle from "@tiptap/extension-text-style"
 import Typography from "@tiptap/extension-typography"
 import Youtube from "@tiptap/extension-youtube"
 import { createLowlight } from "lowlight"
+import { ColorHighlighter, Muted, Small } from "./custom-extensions"
+import { SmilieReplacer } from "./smilie-replacer"
 
 export default [
   Text,
@@ -63,7 +65,7 @@ export default [
   Paragraph,
   Placeholder.configure({
     placeholder: ({ node }) => {
-      if (node.type.name === "heading") {
+      if (node.type.name === "heading" && node.attrs.level === 1) {
         return "What's the title of your post?"
       }
       return "Write something amazing ..."
@@ -86,4 +88,8 @@ export default [
   TextStyle,
   Typography,
   Youtube,
+  Small,
+  Muted,
+  ColorHighlighter,
+  SmilieReplacer,
 ]
