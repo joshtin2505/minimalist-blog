@@ -65,10 +65,7 @@ export default [
   Paragraph,
   Placeholder.configure({
     placeholder: ({ node }) => {
-      if (node.type.name === "heading" && node.attrs.level === 1) {
-        return "What's the title of your post?"
-      }
-      return "Write something amazing ..."
+      return "Type / to browse options"
     },
   }),
   italic,
