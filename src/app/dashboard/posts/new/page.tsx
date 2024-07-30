@@ -20,13 +20,14 @@ import { useEffect, useState } from "react"
 import { toast } from "sonner"
 
 import extensions from "@/lib/editor"
-import { useEditor } from "@tiptap/react"
+import { FloatingMenu, useEditor } from "@tiptap/react"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { Input } from "@/components/ui/input"
+import FloatingMenuOptions from "@/sections/text-editor/FloatingMenuOptions"
 
 function New() {
   const [categories, setCategories] = useState<CategoryPureType[]>([])
@@ -118,6 +119,8 @@ function New() {
           </PopoverContent>
         </Popover>
       </div>
+      <FloatingMenuOptions editor={editor} />
+
       <TextEditor editor={editor} />
     </div>
   )
