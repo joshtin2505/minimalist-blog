@@ -1,127 +1,63 @@
 "use client"
 
-import { getCategories } from "@/actions/categories"
-import TextEditor from "@/components/TextEditor"
-import { Button } from "@/components/ui/button"
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-import UtilityBar from "@/sections/text-editor/UtilityBar"
-import { CategoryPureType } from "@/types"
-import { Plus, X } from "lucide-react"
-import Link from "next/link"
-import { useEffect, useState } from "react"
-import { toast } from "sonner"
+import "iframe-resizer/js/iframeResizer.contentWindow"
 
-import extensions from "@/lib/editor"
-import { FloatingMenu, useEditor } from "@tiptap/react"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
-import { Input } from "@/components/ui/input"
-import FloatingMenuOptions from "@/sections/text-editor/FloatingMenuOptions"
+import { useEffect, useLayoutEffect, useMemo, useState } from "react"
+
+import BlockEditor from "@/components/text-editor/BlockEditor"
+import { useSearchParams } from "next/navigation"
+import { TiptapCollabProvider } from "@hocuspocus/provider"
+import { Doc as YDoc } from "yjs"
 
 function New() {
-  const [categories, setCategories] = useState<CategoryPureType[]>([])
-  useEffect(() => {
-    ;(async () => {
-      await getCategories()
-        .then((res) => setCategories(res))
-        .catch((error) => {
-          toast.error(error)
-          console.log(error)
-          setCategories([])
-        })
-    })()
-  }, [])
-  const editor = useEditor({
-    extensions,
-    editable: true,
-    autofocus: true,
-    onUpdate: ({ editor }) => {
-      const doc = editor.state.doc
+  const [provider, setProvider] = useState<TiptapCollabProvider | null>(null)
+  const [collabToken, setCollabToken] = useState<string | null>(null)
+  const searchParams = useSearchParams()
 
-      // Verificar si la primera línea es un encabezado
-      // if (!doc.firstChild || doc.firstChild.type.name !== "heading") {
-      //   editor.chain().focus().setNode("heading", { level: 1 }).run()
-      // }
-    },
-    content: "<h5>Hello, World!</h5>",
-    injectCSS: true,
-  })
-  if (!editor) return null
+  const room = "new-post" // this should be unique for each post - generate a id of the db
+
+  useEffect(() => {
+    // fetch data
+    const dataFetch = async () => {
+      const data = await (
+        await fetch("/api/collaboration", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+      ).json()
+
+      const { token } = data
+
+      // set state when the data received
+      setCollabToken(token)
+    }
+
+    dataFetch()
+  }, [])
+
+  const ydoc = useMemo(() => new YDoc(), [])
+
+  const hasCollab = parseInt(searchParams.get("noCollab") as string) !== 1
+  useLayoutEffect(() => {
+    if (hasCollab && collabToken) {
+      setProvider(
+        new TiptapCollabProvider({
+          name: `${process.env.NEXT_PUBLIC_COLLAB_DOC_PREFIX}${room}`,
+          appId: process.env.NEXT_PUBLIC_TIPTAP_COLLAB_APP_ID ?? "",
+          token: collabToken,
+          document: ydoc,
+        }),
+      )
+    }
+  }, [setProvider, collabToken, ydoc, room, hasCollab])
+
+  if (hasCollab && (!collabToken || !provider)) return
 
   return (
-    <div className="pt-4 flex flex-col gap-2">
-      <header className="flex justify-end w-full px-4 gap-4 items-center">
-        <Select>
-          {categories.length > 0 ? (
-            <>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Select a category" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Category</SelectLabel>
-                  {categories.map((category) => (
-                    <>
-                      <SelectItem key={category.id} value={category.id}>
-                        {category.name}
-                      </SelectItem>
-                    </>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </>
-          ) : (
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="No categories found" />
-            </SelectTrigger>
-          )}
-        </Select>
-        <Button variant="outline">Publicar</Button>
-        <Button variant="default">Guardar</Button>
-        <Link href="/dashboard/posts">
-          <X size={24} className="cursor-pointer ml-5" />
-        </Link>
-      </header>
-      <UtilityBar editor={editor} />
-      <div className="px-4 ">
-        <Input
-          type="text"
-          placeholder="What's the title of your post? "
-          className="w-full py-2 border-none bg-transparent text-2xl font-bold focus-visible:ring-transparent capitalize"
-        />
-        <Popover>
-          <PopoverTrigger className="">
-            <Button
-              variant="outline"
-              className="flex items-center gap-2 p-0.5 px-2"
-            >
-              <Plus size={18} />
-              Agregar etiqueta
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent>
-            <Input
-              type="text"
-              placeholder="Type a tag and press Enter"
-              className="w-full py-2 border-none bg-transparent text-lg"
-            />
-          </PopoverContent>
-        </Popover>
-      </div>
-      <FloatingMenuOptions editor={editor} />
-
-      <TextEditor editor={editor} />
+    <div className="">
+      <BlockEditor hasCollab={hasCollab} ydoc={ydoc} provider={provider} />
     </div>
   )
 }
