@@ -64,6 +64,7 @@ import { Quote } from "@/extensions/Quote"
 import { QuoteCaption } from "@/extensions/QuoteCaption"
 import Color from "@tiptap/extension-color"
 import { FontSize } from "@/extensions/FontSize"
+import StarterKit from "@tiptap/starter-kit"
 
 interface ExtensionKitProps {
   provider?: HocuspocusProvider | null
@@ -86,6 +87,15 @@ const ExtensionKit = ({
   bubbleMenu,
   bulletList,
   code,
+  StarterKit.configure({
+    document: false,
+    dropcursor: false,
+    heading: false,
+    horizontalRule: false,
+    blockquote: false,
+    history: false,
+    codeBlock: false,
+  }),
   codeBlock,
   TableOfContents,
   TableOfContentsNode,
@@ -151,11 +161,14 @@ const ExtensionKit = ({
     addKeyboardShortcuts() {
       return {}
     },
-    types: ["heading", "paragraph", "small"],
+  }).configure({
+    types: ["heading", "paragraph"],
   }),
   listKeyMap,
   OrderList,
-  Table,
+  Table.configure({
+    resizable: true,
+  }),
   TableCell,
   TableHeader,
   TableRow,
