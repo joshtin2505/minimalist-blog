@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { Surface } from "@/components/ui/surface"
+import { Switch } from "@/components/ui/switch"
 import { Toggle } from "@/components/ui/toggle"
 import { Link } from "lucide-react"
 import { useState, useCallback, useMemo } from "react"
@@ -81,11 +82,9 @@ export const LinkEditorPanel = ({
       <div className="mt-3">
         <label className="flex items-center justify-start gap-2 text-sm font-semibold cursor-pointer select-none text-neutral-500 dark:text-neutral-400">
           Open in new tab
-          <Toggle
-            pressed={state.openInNewTab}
-            onPressedChange={(e) => {
-              state.setOpenInNewTab(e)
-            }}
+          <Switch
+            checked={state.openInNewTab}
+            onCheckedChange={state.setOpenInNewTab}
           />
         </label>
       </div>
