@@ -67,11 +67,11 @@ export const BlockEditor = ({ ydoc, provider }: TiptapProps) => {
               toggleSidebar={leftSidebar.toggle}
             />
             <UtilityBar editor={editor} />
-            <div className="px-4 max-w-screen-xl w-full mx-auto  ">
+            <div className="px-4 max-w-screen-xl w-full mx-auto mt-2 ">
               <Input
                 type="text"
                 placeholder="What's the title of your post? "
-                className="w-full py-2 border-none bg-transparent text-2xl font-bold focus-visible:ring-transparent capitalize"
+                className="w-full mb-2 py-2 border-none bg-transparent text-2xl font-bold focus-visible:ring-transparent capitalize"
               />
               <Popover>
                 <PopoverTrigger className="">
