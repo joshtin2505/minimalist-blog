@@ -1,7 +1,14 @@
-import SelectHeading from "@/components/text-editor/SelectHeading"
+import { ContentTypePicker } from "@/components/text-editor/menus/TextMenu/components/ContentTypePicker"
+import { FontFamilyPicker } from "@/components/text-editor/menus/TextMenu/components/FontFamilyPicker"
+import { FontSizePicker } from "@/components/text-editor/menus/TextMenu/components/FontSizePicker"
+import { useTextmenuCommands } from "@/components/text-editor/menus/TextMenu/hooks/useTextmenuCommands"
+import { useTextmenuContentTypes } from "@/components/text-editor/menus/TextMenu/hooks/useTextmenuContentTypes"
+import { useTextmenuStates } from "@/components/text-editor/menus/TextMenu/hooks/useTextmenuStates"
+import { ColorPicker } from "@/components/text-editor/panels/Colorpicker"
 import { Button } from "@/components/ui/button"
 
 import { Separator } from "@/components/ui/separator"
+import { Toolbar } from "@/components/ui/toolbar"
 import {
   Tooltip,
   TooltipContent,
@@ -31,12 +38,29 @@ import {
   Table,
   Underline,
 } from "lucide-react"
-import React from "react"
+import React, { memo } from "react"
+
+const MemoButton = memo(Toolbar.Button)
+const MemoColorPicker = memo(ColorPicker)
+const MemoFontFamilyPicker = memo(FontFamilyPicker)
+const MemoFontSizePicker = memo(FontSizePicker)
+const MemoContentTypePicker = memo(ContentTypePicker)
 
 function UtilityBar({ editor }: { editor: Editor }) {
+  const commands = useTextmenuCommands(editor)
+  const states = useTextmenuStates(editor)
+  const blockOptions = useTextmenuContentTypes(editor)
   return (
-    <div className="control-group px-5 flex gap-2 h-10 items-center mt-2">
-      <SelectHeading editor={editor} />
+    <div className="control-group px-5 flex gap-2 h-10 items-center mt-2 max-w-screen-xl w-full mx-auto">
+      <MemoContentTypePicker options={blockOptions} />
+      <MemoFontFamilyPicker
+        onChange={commands.onSetFont}
+        value={states.currentFont || ""}
+      />
+      <MemoFontSizePicker
+        onChange={commands.onSetFontSize}
+        value={states.currentSize || ""}
+      />
       <Separator orientation="vertical" className="h-8" />
       <div className="flex gap-2">
         <Button variant="ghost" className="p-0 size-8">
