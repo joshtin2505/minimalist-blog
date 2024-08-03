@@ -5,6 +5,7 @@ import { useTextmenuCommands } from "@/components/text-editor/menus/TextMenu/hoo
 import { useTextmenuContentTypes } from "@/components/text-editor/menus/TextMenu/hooks/useTextmenuContentTypes"
 import { useTextmenuStates } from "@/components/text-editor/menus/TextMenu/hooks/useTextmenuStates"
 import { ColorPicker } from "@/components/text-editor/panels/Colorpicker"
+import ToggleTip from "@/components/text-editor/ToggleTip"
 import { Button } from "@/components/ui/button"
 
 import { Separator } from "@/components/ui/separator"
@@ -14,6 +15,10 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+
+import * as Popover from "@radix-ui/react-popover"
+import { Surface } from "@/components/ui/surface"
+
 import { Editor } from "@tiptap/react"
 import {
   AlignCenter,
@@ -22,6 +27,7 @@ import {
   AlignRight,
   Bold,
   Book,
+  Code,
   CodeXml,
   Highlighter,
   Image,
@@ -40,6 +46,7 @@ import {
 } from "lucide-react"
 import React, { memo } from "react"
 
+const MemoToggel = memo(ToggleTip)
 const MemoButton = memo(Toolbar.Button)
 const MemoColorPicker = memo(ColorPicker)
 const MemoFontFamilyPicker = memo(FontFamilyPicker)
@@ -51,7 +58,7 @@ function UtilityBar({ editor }: { editor: Editor }) {
   const states = useTextmenuStates(editor)
   const blockOptions = useTextmenuContentTypes(editor)
   return (
-    <div className="control-group px-5 flex gap-2 h-10 items-center mt-2 max-w-screen-xl w-full mx-auto">
+    <div className="control-group px-5 flex gap-x-1 h-10 items-center mt-2 max-w-screen-xl w-full mx-auto">
       <MemoContentTypePicker options={blockOptions} />
       <MemoFontFamilyPicker
         onChange={commands.onSetFont}
@@ -62,107 +69,218 @@ function UtilityBar({ editor }: { editor: Editor }) {
         value={states.currentSize || ""}
       />
       <Separator orientation="vertical" className="h-8" />
-      <div className="flex gap-2">
-        <Button variant="ghost" className="p-0 size-8">
+      <div className="flex gap-x-0.5">
+        <MemoToggel
+          tooltip="Bold"
+          toggleProps={{
+            pressed: states.isBold,
+            onPressedChange: commands.onBold,
+            className: "hover:text-white p-0 size-9",
+          }}
+        >
           <Bold size={18} />
-        </Button>
-        <Button variant="ghost" className="p-0 size-8">
+        </MemoToggel>
+        <MemoToggel
+          tooltip="Italic"
+          toggleProps={{
+            pressed: states.isItalic,
+            onPressedChange: commands.onItalic,
+            className: "hover:text-white p-0 size-9",
+          }}
+        >
           <Italic size={18} />
-        </Button>
-        <Button variant="ghost" className="p-0 size-8">
+        </MemoToggel>
+        <MemoToggel
+          tooltip="Underline"
+          toggleProps={{
+            pressed: states.isUnderline,
+            onPressedChange: commands.onUnderline,
+            className: "hover:text-white p-0 size-9",
+          }}
+        >
           <Underline size={18} />
-        </Button>
-        <Button variant="ghost" className="p-0 size-8">
+        </MemoToggel>
+        <MemoToggel
+          tooltip="Strikethrough"
+          toggleProps={{
+            pressed: states.isStrike,
+            onPressedChange: commands.onStrike,
+            className: "hover:text-white p-0 size-9",
+          }}
+        >
           <Strikethrough size={18} />
-        </Button>
-        <Button variant="ghost" className="p-0 size-8">
-          <Superscript size={18} />
-        </Button>
-        <Button variant="ghost" className="p-0 size-8">
+        </MemoToggel>
+        <MemoToggel
+          tooltip="Code"
+          toggleProps={{
+            pressed: states.isCode,
+            onPressedChange: commands.onCode,
+            className: "hover:text-white p-0 size-9",
+          }}
+        >
+          <Code size={18} />
+        </MemoToggel>
+        <MemoToggel
+          tooltip="Subscript"
+          toggleProps={{
+            pressed: states.isSubscript,
+            onPressedChange: commands.onSubscript,
+            className: "hover:text-white p-0 size-9",
+          }}
+        >
           <Subscript size={18} />
-        </Button>
+        </MemoToggel>
+        <MemoToggel
+          tooltip="Superscript"
+          toggleProps={{
+            pressed: states.isSuperscript,
+            onPressedChange: commands.onSuperscript,
+            className: "hover:text-white p-0 size-9",
+          }}
+        >
+          <Superscript size={18} />
+        </MemoToggel>
       </div>
       <Separator orientation="vertical" className="h-8" />
-      <div className="flex gap-2">
-        <Button variant="ghost" className="p-0 size-8">
-          <Palette size={18} />
-        </Button>
-        <Button variant="ghost" className="p-0 size-8">
-          <Highlighter size={18} />
-        </Button>
+      <div className="flex gap-x-0.5">
+        <Popover.Root>
+          <Popover.Trigger asChild>
+            <MemoButton
+              tooltip="Highlight text"
+              active={!!states.currentHighlight}
+            >
+              <Highlighter />
+            </MemoButton>
+          </Popover.Trigger>
+          <Popover.Content side="top" sideOffset={8} asChild>
+            <Surface className="p-1">
+              <MemoColorPicker
+                color={states.currentHighlight}
+                onChange={commands.onChangeHighlight}
+                onClear={commands.onClearHighlight}
+              />
+            </Surface>
+          </Popover.Content>
+        </Popover.Root>
+        <Popover.Root>
+          <Popover.Trigger asChild>
+            <MemoButton active={!!states.currentColor} tooltip="Text color">
+              <Palette />
+            </MemoButton>
+          </Popover.Trigger>
+          <Popover.Content side="top" sideOffset={8} asChild>
+            <Surface className="p-1">
+              <MemoColorPicker
+                color={states.currentColor}
+                onChange={commands.onChangeColor}
+                onClear={commands.onClearColor}
+              />
+            </Surface>
+          </Popover.Content>
+        </Popover.Root>
       </div>
       <Separator orientation="vertical" className="h-8" />
-      <Button variant="ghost" className="p-0 size-8">
+      <Button variant="ghost" className="p-0 size-9">
         <Quote size={18} />
       </Button>
       <Separator orientation="vertical" className="h-8" />
-      <div className="flex gap-2">
-        <Button variant="ghost" className="p-0 size-8">
+      <div className="flex gap-x-0.5">
+        <Button variant="ghost" className="p-0 size-9">
           <List size={18} />
         </Button>
-        <Button variant="ghost" className="p-0 size-8">
+        <Button variant="ghost" className="p-0 size-9">
           <ListOrdered size={18} />
         </Button>
-        <Button variant="ghost" className="p-0 size-8">
+        <Button variant="ghost" className="p-0 size-9">
           <ListTodo size={18} />
         </Button>
       </div>
       <Separator orientation="vertical" className="h-8" />
-      <div className="flex gap-2">
-        <Button variant="ghost" className="p-0 size-8">
+      <div className="flex gap-x-0.5">
+        <MemoToggel
+          tooltip="Align left"
+          toggleProps={{
+            pressed: states.isAlignLeft,
+            onPressedChange: commands.onAlignLeft,
+            className: "hover:text-white",
+          }}
+        >
           <AlignLeft size={18} />
-        </Button>
-        <Button variant="ghost" className="p-0 size-8">
+        </MemoToggel>
+        <MemoToggel
+          tooltip="Align center"
+          toggleProps={{
+            pressed: states.isAlignCenter,
+            onPressedChange: commands.onAlignCenter,
+            className: "hover:text-white",
+          }}
+        >
           <AlignCenter size={18} />
-        </Button>
-        <Button variant="ghost" className="p-0 size-8">
+        </MemoToggel>
+        <MemoToggel
+          tooltip="Align right"
+          toggleProps={{
+            pressed: states.isAlignRight,
+            onPressedChange: commands.onAlignRight,
+            className: "hover:text-white",
+          }}
+        >
           <AlignRight size={18} />
-        </Button>
-        <Button variant="ghost" className="p-0 size-8">
+        </MemoToggel>
+        <MemoToggel
+          tooltip="Justify"
+          toggleProps={{
+            pressed: states.isAlignJustify,
+            onPressedChange: commands.onAlignJustify,
+            className: "hover:text-white",
+          }}
+        >
           <AlignJustify size={18} />
-        </Button>
+        </MemoToggel>
       </div>
       <Separator orientation="vertical" className="h-8" />
-      <div className="flex gap-2">
-        <Button variant="ghost" className="p-0 size-8">
+      <div className="flex gap-x-0.5">
+        <Button variant="ghost" className="p-0 size-9">
           <Image size={18} />
         </Button>
-        <Button variant="ghost" className="p-0 size-8">
+        <Button variant="ghost" className="p-0 size-9">
           <CodeXml size={18} />
         </Button>
       </div>
       <Separator orientation="vertical" className="h-8" />
-      <div className="flex gap-2">
-        <Tooltip>
-          <TooltipTrigger>
-            <Button variant="ghost" className="p-0 size-8">
-              <Minus size={18} />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>Horizontal rule</p>
-          </TooltipContent>
-        </Tooltip>
-        <Tooltip>
-          <TooltipTrigger>
-            <Button variant="ghost" className="p-0 size-8">
-              <Table size={18} />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>Table</p>
-          </TooltipContent>
-        </Tooltip>
-        <Tooltip>
-          <TooltipTrigger>
-            <Button variant="ghost" className="p-0 size-8">
-              <Book size={18} />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>Table of contents</p>
-          </TooltipContent>
-        </Tooltip>
+      <div className="flex gap-x-0.5">
+        <MemoButton
+          tooltip="Horizontal rule"
+          variant="ghost"
+          className="p-0 size-9"
+          onClick={() => editor.chain().focus().setHorizontalRule().run()}
+        >
+          <Minus size={18} />
+        </MemoButton>
+        <MemoButton
+          tooltip="Table"
+          variant="ghost"
+          className="p-0 size-9"
+          disabled={editor.isActive("columns")}
+          onClick={() =>
+            editor
+              .chain()
+              .focus()
+              .insertTable({ rows: 3, cols: 3, withHeaderRow: false })
+              .run()
+          }
+        >
+          <Table size={18} />
+        </MemoButton>
+        <MemoButton
+          disabled={editor.isActive("columns")}
+          tooltip="Table of contents"
+          variant="ghost"
+          className="p-0 size-9"
+          onClick={() => editor.chain().focus().insertTableOfContents().run()}
+        >
+          <Book size={18} />
+        </MemoButton>
       </div>
     </div>
   )
