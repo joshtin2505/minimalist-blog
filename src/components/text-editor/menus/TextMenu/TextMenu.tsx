@@ -13,9 +13,11 @@ import { ContentTypePicker } from "./components/ContentTypePicker"
 import { EditLinkPopover } from "./components/EditLinkPopover"
 import { ColorPicker } from "../../panels/Colorpicker"
 import { Code, Code2, Highlighter, MoreVertical, Palette } from "lucide-react"
+import ToggleTip from "../../ToggleTip"
 
 // We memorize the button so each button is not rerendered
 // on every editor state change
+const MemoToggel = memo(ToggleTip)
 const MemoButton = memo(Toolbar.Button)
 const MemoColorPicker = memo(ColorPicker)
 const MemoFontFamilyPicker = memo(FontFamilyPicker)
@@ -39,7 +41,7 @@ export const TextMenu = ({ editor }: TextMenuProps) => {
       shouldShow={states.shouldShow}
       updateDelay={100}
     >
-      <Toolbar.Wrapper className="text-white">
+      <Toolbar.Wrapper className="text-muted-foreground hover:[&>button]:text-white">
         <MemoContentTypePicker options={blockOptions} />
         <MemoFontFamilyPicker
           onChange={commands.onSetFont}
@@ -50,55 +52,66 @@ export const TextMenu = ({ editor }: TextMenuProps) => {
           value={states.currentSize || ""}
         />
         <Toolbar.Divider />
-        <MemoButton
+        <MemoToggel
           tooltip="Bold"
-          tooltipShortcut={["Mod", "B"]}
-          onClick={commands.onBold}
-          active={states.isBold}
+          toggleProps={{
+            pressed: states.isBold,
+            onPressedChange: commands.onBold,
+            className: "hover:text-white",
+          }}
         >
           <Icon name="Bold" />
-        </MemoButton>
-        <MemoButton
+        </MemoToggel>
+        <MemoToggel
           tooltip="Italic"
-          tooltipShortcut={["Mod", "I"]}
-          onClick={commands.onItalic}
-          active={states.isItalic}
+          toggleProps={{
+            pressed: states.isItalic,
+            onPressedChange: commands.onItalic,
+            className: "hover:text-white",
+          }}
         >
           <Icon name="Italic" />
-        </MemoButton>
-        <MemoButton
+        </MemoToggel>
+        <MemoToggel
           tooltip="Underline"
-          tooltipShortcut={["Mod", "U"]}
-          onClick={commands.onUnderline}
-          active={states.isUnderline}
+          toggleProps={{
+            pressed: states.isUnderline,
+            onPressedChange: commands.onUnderline,
+            className: "hover:text-white",
+          }}
         >
           <Icon name="Underline" />
-        </MemoButton>
-        <MemoButton
+        </MemoToggel>
+        <MemoToggel
           tooltip="Strikehrough"
-          tooltipShortcut={["Mod", "Shift", "S"]}
-          onClick={commands.onStrike}
-          active={states.isStrike}
+          toggleProps={{
+            pressed: states.isStrike,
+            onPressedChange: commands.onStrike,
+            className: "hover:text-white",
+          }}
         >
           <Icon name="Strikethrough" />
-        </MemoButton>
-        <MemoButton
+        </MemoToggel>
+        <MemoToggel
           tooltip="Code"
-          tooltipShortcut={["Mod", "E"]}
-          onClick={commands.onCode}
-          active={states.isCode}
+          toggleProps={{
+            pressed: states.isCode,
+            onPressedChange: commands.onCode,
+            className: "hover:text-white",
+          }}
         >
           <Code />
-        </MemoButton>
-        <MemoButton tooltip="Code block" onClick={commands.onCodeBlock}>
+        </MemoToggel>
+        {/*  */}
+        <MemoButton tooltip="Code block" onClick={commands.onCode}>
           <Code2 />
         </MemoButton>
         <EditLinkPopover onSetLink={commands.onLink} />
         <Popover.Root>
           <Popover.Trigger asChild>
             <MemoButton
-              active={!!states.currentHighlight}
               tooltip="Highlight text"
+              active={!!states.currentHighlight}
             >
               <Highlighter />
             </MemoButton>
@@ -135,57 +148,69 @@ export const TextMenu = ({ editor }: TextMenuProps) => {
               <MoreVertical />
             </MemoButton>
           </Popover.Trigger>
-          <Popover.Content side="top" asChild>
+          <Popover.Content side="top" asChild className="text-muted-foreground">
             <Toolbar.Wrapper>
-              <MemoButton
+              <MemoToggel
                 tooltip="Subscript"
-                tooltipShortcut={["Mod", "."]}
-                onClick={commands.onSubscript}
-                active={states.isSubscript}
+                toggleProps={{
+                  pressed: states.isSubscript,
+                  onPressedChange: commands.onSubscript,
+                  className: "hover:text-white",
+                }}
               >
                 <Icon name="Subscript" />
-              </MemoButton>
-              <MemoButton
+              </MemoToggel>
+              <MemoToggel
                 tooltip="Superscript"
-                tooltipShortcut={["Mod", ","]}
-                onClick={commands.onSuperscript}
-                active={states.isSuperscript}
+                toggleProps={{
+                  pressed: states.isSuperscript,
+                  onPressedChange: commands.onSuperscript,
+                  className: "hover:text-white",
+                }}
               >
                 <Icon name="Superscript" />
-              </MemoButton>
+              </MemoToggel>
               <Toolbar.Divider />
-              <MemoButton
+              <MemoToggel
                 tooltip="Align left"
-                tooltipShortcut={["Shift", "Mod", "L"]}
-                onClick={commands.onAlignLeft}
-                active={states.isAlignLeft}
+                toggleProps={{
+                  pressed: states.isAlignLeft,
+                  onPressedChange: commands.onAlignLeft,
+                  className: "hover:text-white",
+                }}
               >
                 <Icon name="AlignLeft" />
-              </MemoButton>
-              <MemoButton
+              </MemoToggel>
+              <MemoToggel
                 tooltip="Align center"
-                tooltipShortcut={["Shift", "Mod", "E"]}
-                onClick={commands.onAlignCenter}
-                active={states.isAlignCenter}
+                toggleProps={{
+                  pressed: states.isAlignCenter,
+                  onPressedChange: commands.onAlignCenter,
+                  className: "hover:text-white",
+                }}
               >
                 <Icon name="AlignCenter" />
-              </MemoButton>
-              <MemoButton
+              </MemoToggel>
+              <MemoToggel
                 tooltip="Align right"
-                tooltipShortcut={["Shift", "Mod", "R"]}
-                onClick={commands.onAlignRight}
-                active={states.isAlignRight}
+                toggleProps={{
+                  pressed: states.isAlignRight,
+                  onPressedChange: commands.onAlignRight,
+                  className: "hover:text-white",
+                }}
               >
                 <Icon name="AlignRight" />
-              </MemoButton>
-              <MemoButton
+              </MemoToggel>
+              <MemoToggel
                 tooltip="Justify"
-                tooltipShortcut={["Shift", "Mod", "J"]}
-                onClick={commands.onAlignJustify}
-                active={states.isAlignJustify}
+                toggleProps={{
+                  pressed: states.isAlignJustify,
+                  onPressedChange: commands.onAlignJustify,
+                  className: "hover:text-white",
+                }}
               >
                 <Icon name="AlignJustify" />
-              </MemoButton>
+              </MemoToggel>
             </Toolbar.Wrapper>
           </Popover.Content>
         </Popover.Root>
