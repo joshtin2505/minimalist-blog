@@ -19,10 +19,11 @@
       p {
         @apply m-0;
 
-        & + p {
+        &+p {
           @apply mt-3;
         }
       }
+
     }
 
     th {
@@ -101,6 +102,7 @@
           content: '';
         }
       }
+
       &:hover {
         @apply bg-black/10;
         @apply dark:bg-white/20;
