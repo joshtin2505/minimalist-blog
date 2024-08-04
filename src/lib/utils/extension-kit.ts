@@ -39,7 +39,7 @@ import TaskList from "@tiptap/extension-task-list"
 import TextStyle from "@tiptap/extension-text-style"
 import Typography from "@tiptap/extension-typography"
 import Youtube from "@tiptap/extension-youtube"
-import { createLowlight } from "lowlight"
+import { common, createLowlight } from "lowlight"
 import { Small } from "@/extensions/Small"
 import { Muted } from "@/extensions/Muted"
 import { ColorHighlighter } from "@/extensions/ColorHighlighter"
@@ -65,6 +65,14 @@ import { QuoteCaption } from "@/extensions/QuoteCaption"
 import Color from "@tiptap/extension-color"
 import { FontSize } from "@/extensions/FontSize"
 import StarterKit from "@tiptap/starter-kit"
+import InvisibleCharacters from "@tiptap-pro/extension-invisible-characters"
+import CodeBlockNodeView from "@/components/text-editor/components/CodeBlockNodeView"
+import { ReactNodeViewRenderer } from "@tiptap/react"
+// import css from "highlight.js/lib/languages/"
+import css from "highlight.js/lib/languages/css"
+import js from "highlight.js/lib/languages/javascript"
+import ts from "highlight.js/lib/languages/typescript"
+import html from "highlight.js/lib/languages/xml"
 
 interface ExtensionKitProps {
   provider?: HocuspocusProvider | null
@@ -72,6 +80,9 @@ interface ExtensionKitProps {
   userName?: string
   userColor?: string
 }
+
+const lowlight = createLowlight()
+lowlight.register({ html, css, js, ts })
 
 const ExtensionKit = ({
   provider,
@@ -96,13 +107,22 @@ const ExtensionKit = ({
     history: false,
     codeBlock: false,
   }),
+  InvisibleCharacters.configure({
+    visible: false,
+  }),
   codeBlock,
   TableOfContents,
   TableOfContentsNode,
-  codeBlockLowlight.configure({
-    lowlight: createLowlight(),
-    defaultLanguage: null,
-  }),
+  codeBlockLowlight
+    .extend({
+      addNodeView() {
+        return ReactNodeViewRenderer(CodeBlockNodeView)
+      },
+    })
+    .configure({
+      lowlight,
+      defaultLanguage: null,
+    }),
   ImageBlock,
   ImageUpload.configure({
     clientId: provider?.document?.clientID,

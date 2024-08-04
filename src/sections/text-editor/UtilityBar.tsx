@@ -38,6 +38,7 @@ import {
   Minus,
   Palette,
   Quote,
+  SquareCode,
   Strikethrough,
   Subscript,
   Superscript,
@@ -179,11 +180,7 @@ function UtilityBar({ editor }: { editor: Editor }) {
           </Popover.Content>
         </Popover.Root>
       </div>
-      <Separator orientation="vertical" className="h-8" />
-      <Button variant="ghost" className="p-0 size-9">
-        <Quote size={18} />
-      </Button>
-      <Separator orientation="vertical" className="h-8" />
+      {/* <Separator orientation="vertical" className="h-8" />
       <div className="flex gap-x-0.5">
         <Button variant="ghost" className="p-0 size-9">
           <List size={18} />
@@ -194,7 +191,7 @@ function UtilityBar({ editor }: { editor: Editor }) {
         <Button variant="ghost" className="p-0 size-9">
           <ListTodo size={18} />
         </Button>
-      </div>
+      </div> */}
       <Separator orientation="vertical" className="h-8" />
       <div className="flex gap-x-0.5">
         <MemoToggel
@@ -240,12 +237,33 @@ function UtilityBar({ editor }: { editor: Editor }) {
       </div>
       <Separator orientation="vertical" className="h-8" />
       <div className="flex gap-x-0.5">
-        <Button variant="ghost" className="p-0 size-9">
+        <MemoButton
+          tooltip="Blockquote"
+          variant="ghost"
+          className="p-0 size-9"
+          onClick={() => editor.chain().focus().setBlockquote().run()}
+        >
+          <Quote size={18} />
+        </MemoButton>
+        <MemoButton
+          tooltip="Image"
+          variant="ghost"
+          className="p-0 size-9"
+          onClick={() => editor.chain().focus().setImageUpload().run()}
+        >
           <Image size={18} />
-        </Button>
-        <Button variant="ghost" className="p-0 size-9">
-          <CodeXml size={18} />
-        </Button>
+        </MemoButton>
+        <MemoToggel
+          tooltip="Code Block"
+          toggleProps={{
+            pressed: editor.isActive("codeBlock"),
+            onPressedChange: () =>
+              editor.chain().focus().toggleCodeBlock().run(),
+            className: "p-0 size-9",
+          }}
+        >
+          <SquareCode size={18} />
+        </MemoToggel>
       </div>
       <Separator orientation="vertical" className="h-8" />
       <div className="flex gap-x-0.5">
