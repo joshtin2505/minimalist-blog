@@ -9,11 +9,11 @@ import { useSearchParams } from "next/navigation"
 import { TiptapCollabProvider } from "@hocuspocus/provider"
 import { Doc as YDoc } from "yjs"
 
-function New() {
+function New({ params }: { params: { post: string } }) {
   const [provider, setProvider] = useState<TiptapCollabProvider | null>(null)
   const [collabToken, setCollabToken] = useState<string | null>(null)
   const searchParams = useSearchParams()
-
+  const { post } = params
   const room = "new-post" // this should be unique for each post - generate a id of the db
 
   useEffect(() => {
