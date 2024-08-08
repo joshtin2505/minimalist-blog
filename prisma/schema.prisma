@@ -14,56 +14,53 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  name      String
-  lastname  String
-  username  String   @unique
-  password  String?
+  id            String       @id @default(uuid())
+  email         String       @unique
+  name          String
+  lastname      String
+  username      String       @unique
+  password      String?
   emailVerified DateTime?
   image         String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  categories Categories[]
-  posts Posts[]
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  categories    Categories[]
+  posts         Posts[]
 }
 
 model Categories {
-  id        String   @id @default(uuid())
-  name      String
-  imagesrc  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  createdBy User @relation(fields: [createdById], references: [id])
+  id          String   @id @default(uuid())
+  name        String
+  imagesrc    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  createdBy   User     @relation(fields: [createdById], references: [id])
   createdById String
-  posts Posts[]
+  posts       Posts[]
 }
-
 
 model VerificationToken {
   identifier String
   token      String
   expires    DateTime
- 
+
   @@id([identifier, token])
 }
 
 model Posts {
-  id                 String       @id @default(cuid())
-  title              String
-  content            String
-  html               String    @db.Text
-  markdown           String    @db.Text
-  createdAt          DateTime  @default(now())
-  updatedAt          DateTime  @updatedAt
+  id                 String      @id @default(cuid())
+  title              String?      @default("New Post")
+  content            Json?
+  createdAt          DateTime    @default(now())
+  updatedAt          DateTime    @updatedAt
   publishedAt        DateTime?
-  readingTimeMinutes Int
-  status              PostStatus
-  author             User      @relation(fields: [authorId], references: [id])
+  readingTimeMinutes Int?         @default(0)
+  status             PostStatus  @default(DRAFT)
+  author             User        @relation(fields: [authorId], references: [id])
   authorId           String
-  category           Categories @relation(fields: [categoryId], references: [id])
-  categoryId         String
-  tags               String[]
+  category           Categories? @relation(fields: [categoryId], references: [id])
+  categoryId         String?
+  tags               String[]    @default([])
 
   @@map("posts")
 }
