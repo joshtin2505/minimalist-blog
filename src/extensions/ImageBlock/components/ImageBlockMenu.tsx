@@ -4,10 +4,14 @@ import { Instance, sticky } from "tippy.js"
 import { v4 as uuid } from "uuid"
 
 import { Toolbar } from "@/components/ui/toolbar"
-import { Icon } from "@/components/ui/icon"
 import { ImageBlockWidth } from "./ImageBlockWidth"
 import { MenuProps } from "@/components/text-editor/menus/types"
 import getRenderContainer from "@/lib/utils/getRenderContainer"
+import {
+  AlignHorizontalDistributeCenter,
+  AlignHorizontalDistributeEnd,
+  AlignHorizontalDistributeStart,
+} from "lucide-react"
 
 export const ImageBlockMenu = ({
   editor,
@@ -94,21 +98,21 @@ export const ImageBlockMenu = ({
           active={editor.isActive("imageBlock", { align: "left" })}
           onClick={onAlignImageLeft}
         >
-          <Icon name="AlignHorizontalDistributeStart" />
+          <AlignHorizontalDistributeStart className="size-6" />
         </Toolbar.Button>
         <Toolbar.Button
           tooltip="Align image center"
           active={editor.isActive("imageBlock", { align: "center" })}
           onClick={onAlignImageCenter}
         >
-          <Icon name="AlignHorizontalDistributeCenter" />
+          <AlignHorizontalDistributeCenter className="size-6" />
         </Toolbar.Button>
         <Toolbar.Button
           tooltip="Align image right"
           active={editor.isActive("imageBlock", { align: "right" })}
           onClick={onAlignImageRight}
         >
-          <Icon name="AlignHorizontalDistributeEnd" />
+          <AlignHorizontalDistributeEnd className="size-6" />
         </Toolbar.Button>
         <Toolbar.Divider />
         <ImageBlockWidth

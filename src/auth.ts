@@ -8,5 +8,16 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
   session: {
     strategy: "jwt",
+    maxAge: 2 * 24 * 60 * 60, // 30 days
+  },
+  callbacks: {
+    session({ session, user, token }) {
+      if (user) {
+        session.user.id = user.id
+      } else if (token) {
+        session.user.id = token.sub as string
+      }
+      return session
+    },
   },
 })

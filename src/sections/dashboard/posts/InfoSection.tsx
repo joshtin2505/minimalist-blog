@@ -1,12 +1,22 @@
 "use client"
+import { createPost } from "@/actions/posts"
 import MetricCard from "@/components/dashboard/metrics/MetricCard"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 import { useRouter } from "next/navigation"
+import { toast } from "sonner"
 
 function InfoSection() {
   const { push } = useRouter()
-
+  const handleCreatePost = () => {
+    createPost()
+      .then((postId) => {
+        push(`/dashboard/posts/${postId}`)
+      })
+      .catch((error) => {
+        toast.error(error.message as string)
+      })
+  }
   return (
     <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
       <MetricCard
@@ -14,9 +24,7 @@ function InfoSection() {
         title="Recent Posts"
         description="Manage your blog posts and view their performance."
         footerChildren={
-          <Button onClick={() => push("/dashboard/posts/new")}>
-            Create New Post
-          </Button>
+          <Button onClick={handleCreatePost}>Create New Post</Button>
         }
       />
       <MetricCard

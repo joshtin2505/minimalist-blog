@@ -92,7 +92,7 @@ function PostsStatusSection() {
                     response?.data?.allPosts.map((post) => {
                       return [
                         post.title,
-                        post.category.name,
+                        post.category?.name ?? "No category",
                         <p className="capitalize">
                           {post.status.toLocaleLowerCase()}
                         </p>,

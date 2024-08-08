@@ -1,4 +1,4 @@
-import { $Enums } from "@prisma/client"
+import { $Enums, Posts } from "@prisma/client"
 
 type ThemeType = "dark" | "light"
 type IdType = `${string}-${string}-${string}-${string}-${string}`
@@ -71,8 +71,6 @@ type PostPureType = {
   id?: string
   title: string
   content: string
-  html: string
-  markdown: string
   createdAt?: Date
   updatedAt?: Date
   publishedAt?: Date

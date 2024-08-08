@@ -1,12 +1,13 @@
 "use client"
 import Aside from "@/sections/dashboard/AsideDashboard"
 import HeaderDashboard from "@/sections/dashboard/HeaderDashboard"
-import { usePathname } from "next/navigation"
+import { useParams, usePathname } from "next/navigation"
 import React from "react"
 
 function Layout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
-  if (pathname.includes("/new")) {
+  const params = useParams()
+  if (pathname === `/dashboard/posts/${params.post}`) {
     return <div className="">{children}</div>
   }
   return (

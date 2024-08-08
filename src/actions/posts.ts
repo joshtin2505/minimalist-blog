@@ -1,20 +1,28 @@
 "use server"
+import { auth } from "@/auth"
 import { db } from "@/lib/db"
-import { IdType, PostToDBType } from "@/types"
+import { PostToDBType } from "@/types"
 
-export async function createPost(post: PostToDBType) {
+export async function createPost() {
   try {
+    const session = await auth()
+    if (!session) {
+      throw new Error("Not authenticated")
+    }
     const response = await db.posts.create({
       data: {
-        ...post,
-        readingTimeMinutes: post.readingTimeMinutes ?? 0,
+        author: { connect: { id: session?.user?.id } },
+        content: {
+          type: "doc",
+          content: [],
+        },
       },
+      select: { id: true },
     })
-    console.log(response)
-    return response
+    return response.id
   } catch (error) {
     console.log(error)
-    throw new Error(String(error))
+    throw new Error("Error creating post")
   }
 }
 
@@ -30,7 +38,7 @@ export async function updatePost(post: PostToDBType) {
     return response
   } catch (error) {
     console.log(error)
-    throw new Error(String(error))
+    throw new Error("Error updating post")
   }
 }
 
@@ -42,7 +50,7 @@ export async function deletePost(postId: string) {
     return response
   } catch (error) {
     console.log(error)
-    throw new Error(String(error))
+    throw new Error("Error deleting post")
   }
 }
 
@@ -57,7 +65,7 @@ export async function publishPost(postId: string) {
     return response
   } catch (error) {
     console.log(error)
-    throw new Error(String(error))
+    throw new Error("Error publishing post")
   }
 }
 
@@ -73,7 +81,7 @@ export async function getPost(postId: string) {
     return response
   } catch (error) {
     console.log(error)
-    throw new Error(String(error))
+    throw new Error("Error getting post")
   }
 }
 
@@ -88,7 +96,7 @@ export async function getPosts() {
     return response
   } catch (error) {
     console.log(error)
-    throw new Error(String(error))
+    throw new Error("Error getting posts")
   }
 }
 
@@ -104,7 +112,7 @@ export async function getDrafts() {
     return response
   } catch (error) {
     console.log(error)
-    throw new Error(String(error))
+    throw new Error("Error getting draft posts")
   }
 }
 
@@ -120,7 +128,7 @@ export async function getPublishedPosts() {
     return response
   } catch (error) {
     console.log(error)
-    throw new Error(String(error))
+    throw new Error("Error getting published posts")
   }
 }
 
@@ -136,7 +144,7 @@ export async function getArchivedPosts() {
     return response
   } catch (error) {
     console.log(error)
-    throw new Error(String(error))
+    throw new Error("Error getting archived post")
   }
 }
 
@@ -152,7 +160,7 @@ export async function getDeletedPosts() {
     return response
   } catch (error) {
     console.log(error)
-    throw new Error(String(error))
+    throw new Error("Error getting del posts")
   }
 }
 
@@ -168,6 +176,6 @@ export async function getProgrammedPosts() {
     return response
   } catch (error) {
     console.log(error)
-    throw new Error(String(error))
+    throw new Error("Error getting programet post")
   }
 }

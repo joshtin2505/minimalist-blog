@@ -211,3 +211,7 @@ html .layerShadow {
     width: 1em;
   }
 }
+
+.posted .writing {
+  display: none !important;
+}

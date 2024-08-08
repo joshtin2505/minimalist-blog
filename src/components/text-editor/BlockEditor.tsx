@@ -30,7 +30,7 @@ import {
 import { Input } from "@/components/ui/input"
 
 import UtilityBar from "@/sections/text-editor/UtilityBar"
-import { Plus, X } from "lucide-react"
+import { Plus } from "lucide-react"
 
 export const BlockEditor = ({ ydoc, provider }: TiptapProps) => {
   const menuContainerRef = useRef(null)
@@ -43,6 +43,13 @@ export const BlockEditor = ({ ydoc, provider }: TiptapProps) => {
   const providerValue = useMemo(() => {
     return {}
   }, [])
+
+  useEffect(() => {
+    if (!editor) return
+    // console.log(editor.getHTML())
+    // console.log(editor.getJSON())
+    // console.log(editor.getText())
+  }, [editor])
 
   if (!editor) {
     return null

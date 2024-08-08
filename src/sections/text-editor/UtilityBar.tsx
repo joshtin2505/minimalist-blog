@@ -29,6 +29,7 @@ import {
   Book,
   Code,
   CodeXml,
+  FileImage,
   Highlighter,
   Image,
   Italic,
@@ -246,10 +247,24 @@ function UtilityBar({ editor }: { editor: Editor }) {
           <Quote size={18} />
         </MemoButton>
         <MemoButton
-          tooltip="Image"
+          tooltip="Image by file"
           variant="ghost"
           className="p-0 size-9"
           onClick={() => editor.chain().focus().setImageUpload().run()}
+        >
+          <FileImage size={18} />
+        </MemoButton>
+        <MemoButton
+          tooltip="Image by url"
+          variant="ghost"
+          className="p-0 size-9"
+          onClick={() => {
+            const url = window.prompt("URL")
+
+            if (url) {
+              editor.chain().focus().setImage({ src: url }).run()
+            }
+          }}
         >
           <Image size={18} />
         </MemoButton>
