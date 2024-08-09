@@ -1,7 +1,6 @@
-import { $Enums, Posts } from "@prisma/client"
+import { $Enums, Posts, Prisma } from "@prisma/client"
 
 type ThemeType = "dark" | "light"
-type IdType = `${string}-${string}-${string}-${string}-${string}`
 type EmailType = `${string}@${string}.${string}`
 type CategoryPureType = {
   name: string
@@ -23,12 +22,12 @@ type LoggedUserType = {
   username: string
 }
 type UserType = {
-  id: IdType
+  id: string
   name: string
   lastname: string
   email: string
   username: string
-  password: string
+  password: string | null
 }
 
 interface AuthorDBType extends UserType {
@@ -70,7 +69,7 @@ export enum PostStatus {
 type PostPureType = {
   id?: string
   title: string
-  content: string
+  content: object
   createdAt?: Date
   updatedAt?: Date
   publishedAt?: Date
@@ -80,9 +79,17 @@ type PostPureType = {
 }
 
 interface PostResType extends PostPureType {
-  category: CategoryResDBType
-  author: Author
+  id: string
+  title: string | null
+  content: Prisma.JsonValue | null
+  createdAt: Date
+  updatedAt: Date
   publishedAt: Date | null
+  readingTimeMinutes: number | null
+  status: $Enums.PostStatus
+  authorId: string
+  categoryId: string | null
+  tags: string[]
 }
 
 interface PostToDBType extends PostPureType {
@@ -96,7 +103,6 @@ export type {
   LoggedUserType,
   ReturnLoginType,
   UserType,
-  IdType,
   PostPureType,
   PostResType,
   PostToDBType,

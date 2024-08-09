@@ -14,7 +14,6 @@ function New({ params }: { params: { post: string } }) {
   const [collabToken, setCollabToken] = useState<string | null>(null)
   const searchParams = useSearchParams()
   const { post } = params
-  const room = "new-post" // this should be unique for each post - generate a id of the db
 
   useEffect(() => {
     // fetch data
@@ -44,20 +43,25 @@ function New({ params }: { params: { post: string } }) {
     if (hasCollab && collabToken) {
       setProvider(
         new TiptapCollabProvider({
-          name: `${process.env.NEXT_PUBLIC_COLLAB_DOC_PREFIX}${room}`,
+          name: `${process.env.NEXT_PUBLIC_COLLAB_DOC_PREFIX}${post}`,
           appId: process.env.NEXT_PUBLIC_TIPTAP_COLLAB_APP_ID ?? "",
           token: collabToken,
           document: ydoc,
         }),
       )
     }
-  }, [setProvider, collabToken, ydoc, room, hasCollab])
+  }, [setProvider, collabToken, ydoc, post, hasCollab])
 
   if (hasCollab && (!collabToken || !provider)) return
 
   return (
     <div className="">
-      <BlockEditor hasCollab={hasCollab} ydoc={ydoc} provider={provider} />
+      <BlockEditor
+        hasCollab={hasCollab}
+        ydoc={ydoc}
+        provider={provider}
+        postId={post}
+      />
     </div>
   )
 }

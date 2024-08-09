@@ -31,12 +31,22 @@ import { Input } from "@/components/ui/input"
 
 import UtilityBar from "@/sections/text-editor/UtilityBar"
 import { Plus } from "lucide-react"
+import { getPost } from "@/actions/posts"
+import { PostResType } from "@/types"
 
-export const BlockEditor = ({ ydoc, provider }: TiptapProps) => {
+export const BlockEditor = ({ ydoc, provider, postId }: TiptapProps) => {
   const menuContainerRef = useRef(null)
 
+  const [post, setPost] = useState<PostResType | null>(null)
+  const [postTitle, setPostTitle] = useState("")
+  useEffect(() => {
+    getPost(postId).then((response) => {
+      setPost(response)
+      setPostTitle(response?.title ?? "")
+    })
+  }, [])
   const { editor, users, characterCount, collabState, leftSidebar } =
-    useBlockEditor({ ydoc, provider })
+    useBlockEditor({ ydoc, provider, initialContent: post?.content as any })
 
   const displayedUsers = users.slice(0, 3)
 
@@ -76,9 +86,11 @@ export const BlockEditor = ({ ydoc, provider }: TiptapProps) => {
             <UtilityBar editor={editor} />
             <div className="px-4 max-w-screen-xl w-full mx-auto mt-2 ">
               <Input
+                value={postTitle}
                 type="text"
                 placeholder="What's the title of your post? "
                 className="w-full mb-2 py-2 border-none bg-transparent text-2xl font-bold focus-visible:ring-transparent capitalize"
+                onChange={(e) => setPostTitle(e.target.value)}
               />
               <Popover>
                 <PopoverTrigger className="">

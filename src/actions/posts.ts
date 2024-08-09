@@ -14,7 +14,21 @@ export async function createPost() {
         author: { connect: { id: session?.user?.id } },
         content: {
           type: "doc",
-          content: [],
+          content: [
+            {
+              type: "paragraph",
+              attrs: {
+                class: null,
+                textAlign: "left",
+              },
+              content: [
+                {
+                  type: "text",
+                  text: "Welcome to our React Block Editor Template built on top of ",
+                },
+              ],
+            },
+          ],
         },
       },
       select: { id: true },
@@ -73,10 +87,6 @@ export async function getPost(postId: string) {
   try {
     const response = await db.posts.findUnique({
       where: { id: postId },
-      include: {
-        category: true,
-        author: true,
-      },
     })
     return response
   } catch (error) {

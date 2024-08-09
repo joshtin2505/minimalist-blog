@@ -23,9 +23,11 @@ declare global {
 export const useBlockEditor = ({
   ydoc,
   provider,
+  initialContent,
 }: {
   ydoc: YDoc
   provider?: TiptapCollabProvider | null | undefined
+  initialContent: { type: string; content: any[] } | null
 }) => {
   const leftSidebar = useSidebar()
   const [collabState, setCollabState] = useState<WebSocketStatus>(
@@ -34,12 +36,25 @@ export const useBlockEditor = ({
   const editor = useEditor(
     {
       autofocus: true,
-      onCreate: ({ editor }) => {
-        provider?.on("synced", () => {
-          // if (editor.isEmpty) {
-          //   editor.commands.setContent(initialContent)
-          // }
-        })
+      // onCreate: ({ editor }) => {
+      //   provider?.on("synced", () => {
+      //     if (editor.isEmpty) {
+      //       editor.commands.setContent(initialContent)
+      //     } else {
+      //       editor.commands.setContent(initialContent)
+      //     }
+      //   })
+      // },
+      content: {
+        type: "doc",
+        content: [
+          {
+            type: "paragraph",
+            content: [
+              { type: "text", text: "Este es el contenido por defecto" },
+            ],
+          },
+        ],
       },
       extensions: [
         ...ExtensionKit({
