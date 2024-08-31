@@ -1,5 +1,5 @@
 "use client"
-import { uploadImage } from "@/actions/uploadImages"
+import { uploadImage } from "@/lib/utils/uploadImages"
 import { DragEvent, useCallback, useEffect, useRef, useState } from "react"
 import { toast } from "sonner"
 

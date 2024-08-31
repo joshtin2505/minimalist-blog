@@ -1,4 +1,3 @@
-"use server"
 import { put } from "@vercel/blob"
 
 export async function uploadImage(file: File): Promise<string> {

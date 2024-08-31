@@ -66,7 +66,7 @@ import { FontSize } from "@/extensions/FontSize"
 import StarterKit from "@tiptap/starter-kit"
 import InvisibleCharacters from "@tiptap-pro/extension-invisible-characters"
 import { ReactNodeViewRenderer } from "@tiptap/react"
-import { uploadImage } from "@/actions/uploadImages"
+import { uploadImage } from "@/lib/utils/uploadImages"
 
 interface ExtensionKitProps {
   provider?: HocuspocusProvider | null
