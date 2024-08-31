@@ -67,6 +67,7 @@ export const ImageUploader = ({
         className="w-0 h-0 overflow-hidden opacity-0"
         ref={ref}
         type="file"
+        multiple={false}
         accept=".jpg,.jpeg,.png,.webp,.gif"
         onChange={onFileChange}
       />

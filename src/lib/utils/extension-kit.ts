@@ -47,7 +47,6 @@ import { Column, Columns } from "@/extensions/MultiColumn"
 import { TableOfContents } from "@tiptap-pro/extension-table-of-contents"
 import { TableOfContentsNode } from "@/extensions/TableOfContentsNode"
 import FileHandler from "@tiptap-pro/extension-file-handler"
-import API from "../api"
 import { ImageBlock } from "@/extensions/ImageBlock"
 import { ImageUpload } from "@/extensions/ImageUpload"
 import Emoji, { gitHubEmojis } from "@tiptap-pro/extension-emoji"
@@ -67,6 +66,7 @@ import { FontSize } from "@/extensions/FontSize"
 import StarterKit from "@tiptap/starter-kit"
 import InvisibleCharacters from "@tiptap-pro/extension-invisible-characters"
 import { ReactNodeViewRenderer } from "@tiptap/react"
+import { uploadImage } from "@/actions/uploadImages"
 
 interface ExtensionKitProps {
   provider?: HocuspocusProvider | null
@@ -114,15 +114,14 @@ const ExtensionKit = ({
   FileHandler.configure({
     allowedMimeTypes: ["image/png", "image/jpeg", "image/gif", "image/webp"],
     onDrop: (currentEditor, files, pos) => {
-      files.forEach(async () => {
-        const url = await API.uploadImage()
-
+      files.forEach(async (file) => {
+        const url = await uploadImage(file)
         currentEditor.chain().setImageBlockAt({ pos, src: url }).focus().run()
       })
     },
     onPaste: (currentEditor, files) => {
-      files.forEach(async () => {
-        const url = await API.uploadImage()
+      files.forEach(async (file) => {
+        const url = await uploadImage(file)
 
         return currentEditor
           .chain()

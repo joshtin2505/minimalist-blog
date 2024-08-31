@@ -146,7 +146,11 @@ html .layerShadow {
     padding: 0.25em 0.3em;
   }
 
-
+  img {
+    &.ProseMirror-selectednode {
+      outline: 3px solid var(--foreground) !important;
+    }
+  }
 
 }
 

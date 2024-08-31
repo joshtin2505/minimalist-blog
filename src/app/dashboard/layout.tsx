@@ -7,6 +7,7 @@ import React from "react"
 function Layout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const params = useParams()
+
   if (pathname === `/dashboard/posts/${params.post}`) {
     return <div className="">{children}</div>
   }

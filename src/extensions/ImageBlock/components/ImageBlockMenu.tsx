@@ -92,7 +92,11 @@ export const ImageBlockMenu = ({
         sticky: "popper",
       }}
     >
-      <Toolbar.Wrapper shouldShowContent={shouldShow()} ref={menuRef}>
+      <Toolbar.Wrapper
+        shouldShowContent={shouldShow()}
+        ref={menuRef}
+        className="*:text-muted "
+      >
         <Toolbar.Button
           tooltip="Align image left"
           active={editor.isActive("imageBlock", { align: "left" })}

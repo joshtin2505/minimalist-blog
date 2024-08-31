@@ -1,5 +1,6 @@
+"use client"
+import { uploadImage } from "@/actions/uploadImages"
 import { DragEvent, useCallback, useEffect, useRef, useState } from "react"
-import { API } from "@/lib/api"
 import { toast } from "sonner"
 
 export const useUploader = ({
@@ -10,10 +11,10 @@ export const useUploader = ({
   const [loading, setLoading] = useState(false)
 
   const uploadFile = useCallback(
-    async (_file?: File) => {
+    async (files: File) => {
       setLoading(true)
       try {
-        const url = await API.uploadImage()
+        const url = await uploadImage(files)
 
         onUpload(url)
       } catch (errPayload: any) {
