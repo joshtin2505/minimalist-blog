@@ -90,6 +90,19 @@ interface PostResType extends PostPureType {
   authorId: string
   categoryId: string | null
   tags: string[]
+}
+interface PostsResType extends PostPureType {
+  id: string
+  title: string | null
+  content: Prisma.JsonValue | null
+  createdAt: Date
+  updatedAt: Date
+  publishedAt: Date | null
+  readingTimeMinutes: number | null
+  status: $Enums.PostStatus
+  authorId: string
+  categoryId: string | null
+  tags: string[]
   category: {
     id: string
     name: string
@@ -125,6 +138,7 @@ export type {
   UserType,
   PostPureType,
   PostResType,
+  PostsResType,
   PostToDBType,
   CategoryPureType,
 }

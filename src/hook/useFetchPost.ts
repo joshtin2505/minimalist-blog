@@ -1,16 +1,16 @@
 import { getPosts } from "@/actions/posts"
-import { PostResType } from "@/types"
+import { PostsResType } from "@/types"
 import { useEffect, useState, useTransition } from "react"
 
 interface UseFetchPostResponse {
   error: null
   data: {
-    allPosts: PostResType[]
-    drafts: PostResType[]
-    published: PostResType[]
-    archived: PostResType[]
-    deleted: PostResType[]
-    programmed: PostResType[]
+    allPosts: PostsResType[]
+    drafts: PostsResType[]
+    published: PostsResType[]
+    archived: PostsResType[]
+    deleted: PostsResType[]
+    programmed: PostsResType[]
   } | null
 }
 export default function useFetchPost() {
@@ -24,7 +24,7 @@ export default function useFetchPost() {
       startTransition(async () => {
         await getPosts()
           .then((res) => {
-            const mapedRes: PostResType[] = res.map((post) => {
+            const mapedRes: PostsResType[] = res.map((post) => {
               return {
                 ...post,
 
