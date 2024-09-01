@@ -90,6 +90,26 @@ interface PostResType extends PostPureType {
   authorId: string
   categoryId: string | null
   tags: string[]
+  category: {
+    id: string
+    name: string
+    imagesrc: string
+    createdAt: Date
+    updatedAt: Date
+    createdById: string
+  }
+  author: {
+    id: string
+    email: string
+    name: string
+    lastname: string
+    username: string
+    password: string | null
+    emailVerified: Date | null
+    image: string | null
+    createdAt: Date
+    updatedAt: Date
+  }
 }
 
 interface PostToDBType extends PostPureType {

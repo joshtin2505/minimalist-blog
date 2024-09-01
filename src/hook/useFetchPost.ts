@@ -24,14 +24,32 @@ export default function useFetchPost() {
       startTransition(async () => {
         await getPosts()
           .then((res) => {
+            const mapedRes: PostResType[] = res.map((post) => {
+              return {
+                ...post,
+
+                category: {
+                  createdAt: post.category?.createdAt as Date,
+                  createdById: post.category?.createdById as string,
+                  id: post.category?.id as string,
+                  imagesrc: post.category?.imagesrc as string,
+                  name: post.category?.name as string,
+                  updatedAt: post.category?.updatedAt as Date,
+                },
+              }
+            })
             setResponse({
               data: {
-                allPosts: res.filter((post) => post.status !== "DELETED"),
-                drafts: res.filter((post) => post.status === "DRAFT"),
-                published: res.filter((post) => post.status === "PUBLISHED"),
-                archived: res.filter((post) => post.status === "ARCHIVED"),
-                deleted: res.filter((post) => post.status === "DELETED"),
-                programmed: res.filter((post) => post.status === "PROGRAMMED"),
+                allPosts: mapedRes.filter((post) => post.status !== "DELETED"),
+                drafts: mapedRes.filter((post) => post.status === "DRAFT"),
+                published: mapedRes.filter(
+                  (post) => post.status === "PUBLISHED",
+                ),
+                archived: mapedRes.filter((post) => post.status === "ARCHIVED"),
+                deleted: mapedRes.filter((post) => post.status === "DELETED"),
+                programmed: mapedRes.filter(
+                  (post) => post.status === "PROGRAMMED",
+                ),
               },
               error: null,
             })
